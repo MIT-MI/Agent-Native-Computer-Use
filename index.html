@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Blind Computer Use</title>
-  <meta name="description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 55x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
+  <meta name="description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Blind Computer Use: Given just a binary, language agents build their own tools for a program and use it better than agents that watch the screen">
-  <meta property="og:description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 55x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
+  <meta property="og:description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
   <meta property="og:image" content="https://kaoru0822-kitauji.github.io/software-in-mcp-out/media/v6/lid-vent.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,12 +33,12 @@
 
   <div class="tldr">
     <b>TL;DR</b>
-    <p><b>We give a language agent only the compiled binaries of a program and a reverse-engineering toolkit. The agent builds its own tools for the program. With these tools, it uses the program much better than the same model does by operating the screen.</b> In FreeCAD, DeepSeek V4.1 Flash finished one task <b>55× faster and with 35× fewer tokens</b> when it used the MCP server it built. Across five tasks it passed <b>100% of the checks with its MCP server and 40% with computer use</b>. In Fruit Ninja, a closed-source real-time game, Kimi K3 <b>averaged 305 points with its MCP server and 68 points with computer use</b>.</p>
+    <p><b>We give a language agent only the compiled binaries of a program and a reverse-engineering toolkit. The agent builds its own tools for the program. With these tools, it uses the program much better than the same model does by operating the screen.</b> In FreeCAD, DeepSeek V4.1 Flash finished one task <b>54× faster and with 35× fewer tokens</b> when it used the MCP server it built. Across five tasks it passed <b>100% of the checks with its MCP server and 40% with computer use</b>. In Fruit Ninja, a closed-source real-time game, Kimi K3 <b>averaged 305 points with its MCP server and 68 points with computer use</b>.</p>
   </div>
 
   <figure class="demo" id="demo-lid">
     <div class="demo-stats">
-      <div><span class="demo-big">55×</span><span class="demo-note">faster, 44 s vs 40 min</span></div>
+      <div><span class="demo-big">54×</span><span class="demo-note">faster, 44 s vs 40 min</span></div>
       <div><span class="demo-big">35×</span><span class="demo-note">fewer tokens, 0.64M vs 22.1M</span></div>
       <div><span class="demo-big">13/13</span><span class="demo-note">checks passed, vs 7/13</span></div>
     </div>
@@ -370,7 +370,7 @@
 
 
   <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>DeepSeek V4.1 Flash passed 100% of the checks with its MCP server and 40% with computer use</h3></div>
-  <p>DeepSeek V4.1 Flash does each task three times with its MCP server and three times with computer use. With computer use, DeepSeek passed 74% of the checks on the shortest task. On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes with the MCP server, and 180.5 minutes with computer use. The build is a separate cost that the agent pays once per program, and DeepSeek V4.1 Flash's three builds took 37, 30 and 85 minutes.</p>
+  <p>DeepSeek V4.1 Flash does each task three times with its MCP server and three times with computer use. With computer use, DeepSeek passed 74% of the checks on the shortest task. On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes and 3.1M tokens with the MCP server, and 180.6 minutes and 127.1M tokens with computer use. The build is a separate cost that the agent pays once per program, and DeepSeek V4.1 Flash's three builds took 37, 30 and 85 minutes.</p>
 
   <figure id="fig-exp1">
     <img class="chart-img" src="media/Freecad_1.png" width="1600" height="1000" decoding="async" alt="Total score in each of three runs, out of 63. Computer use: 27, 26 and 22. MCP server built with REA: 63 in every run. MCP server built without REA: 11 in every run.">
