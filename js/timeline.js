@@ -1,24 +1,23 @@
-/* Figure 2: every tool call of the 18-minute build. Clicking a numbered moment shows what the agent wrote then. */
+/* Figure 2: every tool call of the 37-minute build. Clicking a numbered moment shows what the agent wrote then. */
 (function () {
   "use strict";
 
   /* ---------------- Figure 2: the build timeline ---------------- */
-  var END = 18.4;
-  var SEGS = [[0, 3.12, 1], [3.12, 15.75, 2], [15.75, 16.12, 3], [16.12, 18.4, 4]];
-  var CALLS = [[1.34,"x"],[1.34,"r"],[1.6,"x"],[1.6,"x"],[1.77,"x"],[1.93,"x"],[2.08,"w"],[2.09,"x"],[2.12,"w"],[2.13,"x"],[2.24,"x"],[2.42,"x"],[2.93,"w"],[2.93,"w"],[2.94,"b"],[3.02,"x"],[3.14,"w"],[3.15,"x"],[3.17,"x"],[3.22,"w"],[3.23,"x"],[3.6,"x"],[3.67,"w"],[3.68,"x"],[3.87,"w"],[3.89,"x"],[4.08,"w"],[4.09,"x"],[4.31,"w"],[4.33,"x"],[4.56,"x"],[4.77,"w"],[4.79,"x"],[4.89,"x"],[5.05,"x"],[5.13,"w"],[5.14,"x"],[5.42,"w"],[5.43,"x"],[5.68,"x"],[5.93,"w"],[5.94,"x"],[6.06,"x"],[6.35,"x"],[6.51,"x"],[6.61,"x"],[7.24,"x"],[7.25,"x"],[7.45,"x"],[7.53,"x"],[7.6,"x"],[7.63,"x"],[7.72,"r"],[7.74,"r"],[7.85,"x"],[7.93,"r"],[7.94,"r"],[7.95,"r"],[7.97,"r"],[8.49,"w"],[8.51,"r"],[8.55,"x"],[8.7,"r"],[8.99,"w"],[9.0,"r"],[9.02,"x"],[9.19,"r"],[9.22,"x"],[9.25,"x"],[9.4,"r"],[9.48,"w"],[9.51,"x"],[9.53,"r"],[9.54,"r"],[9.55,"x"],[9.66,"r"],[9.75,"r"],[9.82,"w"],[9.83,"r"],[9.84,"r"],[9.86,"x"],[9.95,"r"],[9.99,"r"],[10.15,"w"],[10.18,"x"],[10.19,"r"],[10.2,"r"],[10.21,"x"],[10.47,"r"],[10.96,"w"],[11.68,"x"],[11.8,"x"],[12.2,"w"],[12.21,"x"],[12.7,"w"],[12.71,"x"],[12.87,"x"],[13.1,"x"],[13.75,"w"],[13.78,"x"],[13.84,"w"],[13.85,"x"],[13.99,"r"],[14.0,"r"],[14.02,"x"],[14.28,"r"],[14.31,"x"],[14.33,"x"],[14.34,"x"],[14.4,"x"],[14.41,"r"],[14.42,"r"],[14.43,"r"],[14.44,"x"],[14.79,"r"],[15.42,"r"],[15.43,"x"],[15.76,"w"],[16.06,"w"],[16.08,"w"],[16.08,"w"],[16.09,"w"],[16.1,"x"],[16.11,"x"],[16.13,"x"],[16.25,"w"],[16.27,"x"],[16.29,"x"],[16.34,"x"],[16.44,"b"],[16.53,"w"],[16.54,"b"],[16.57,"s"],[16.85,"w"],[16.98,"w"],[17.16,"w"],[17.24,"w"],[17.34,"w"],[17.42,"w"],[17.6,"x"],[17.71,"w"],[17.72,"x"],[17.9,"w"],[17.92,"x"],[18.05,"x"],[18.08,"w"],[18.11,"x"],[18.14,"x"],[18.19,"x"],[18.21,"b"],[18.25,"s"],[18.3,"x"]];
+  var END = 37.1;
+  var SEGS = [[0,0.43,1],[0.43,0.56,2],[0.56,0.61,1],[0.61,1.32,2],[1.32,1.47,1],[1.47,1.92,2],[1.92,1.97,3],[1.97,4.32,2],[4.32,4.37,3],[4.37,5.01,2],[5.01,5.13,3],[5.13,6.46,2],[6.46,7.57,3],[7.57,7.72,4],[7.72,8.45,2],[8.45,8.62,3],[8.62,9.09,4],[9.09,9.16,2],[9.16,9.4,3],[9.4,9.83,4],[9.83,9.92,3],[9.92,10.37,4],[10.37,10.4,3],[10.4,10.46,2],[10.46,10.64,4],[10.64,11.07,2],[11.07,11.24,3],[11.24,11.35,2],[11.35,11.43,3],[11.43,11.53,2],[11.53,11.61,3],[11.61,11.85,2],[11.85,11.89,3],[11.89,12.15,2],[12.15,12.37,3],[12.37,12.74,4],[12.74,12.96,2],[12.96,13.08,3],[13.08,13.45,4],[13.45,13.65,2],[13.65,13.76,3],[13.76,14.13,4],[14.13,14.22,2],[14.22,14.34,3],[14.34,14.59,4],[14.59,14.63,2],[14.63,14.81,3],[14.81,14.88,4],[14.88,14.92,3],[14.92,15.17,4],[15.17,15.33,3],[15.33,15.56,4],[15.56,15.61,3],[15.61,17.05,4],[17.05,17.45,2],[17.45,17.5,3],[17.5,20.0,4],[20.0,20.05,3],[20.05,26.65,4],[26.65,27.39,2],[27.39,27.96,3],[27.96,28.39,4],[28.39,28.55,3],[28.55,29.15,4],[29.15,29.44,2],[29.44,29.67,3],[29.67,29.76,4],[29.76,29.88,3],[29.88,30.08,4],[30.08,30.45,2],[30.45,30.63,3],[30.63,30.93,4],[30.93,31.05,2],[31.05,31.1,3],[31.1,31.64,4],[31.64,31.98,3],[31.98,34.15,4],[34.15,34.33,3],[34.33,34.69,4],[34.69,34.89,3],[34.89,35.11,4],[35.11,35.16,2],[35.16,35.22,3],[35.22,35.26,2],[35.26,35.31,3],[35.31,35.44,2],[35.44,35.48,3],[35.48,35.67,4],[35.67,35.79,3],[35.79,35.89,4],[35.89,36.22,2],[36.22,36.42,3],[36.42,36.67,4],[36.67,36.75,2],[36.75,36.79,3],[36.79,37.02,4]];
+  var CALLS = [[0.02,"x"],[0.02,"x"],[0.24,"r"],[0.24,"x"],[0.28,"r"],[0.28,"r"],[0.34,"r"],[0.34,"x"],[0.38,"x"],[0.43,"r"],[0.52,"r"],[0.56,"x"],[0.59,"x"],[0.61,"x"],[0.89,"r"],[1.32,"r"],[1.32,"x"],[1.47,"r"],[1.53,"r"],[1.59,"r"],[1.71,"r"],[1.75,"r"],[1.92,"r"],[1.97,"x"],[2.06,"x"],[2.1,"x"],[2.41,"r"],[2.66,"r"],[2.97,"x"],[3.01,"x"],[3.04,"x"],[4.32,"x"],[4.37,"r"],[4.42,"x"],[4.45,"x"],[4.54,"x"],[4.59,"x"],[5.01,"x"],[5.13,"x"],[5.49,"x"],[5.56,"x"],[5.6,"x"],[5.88,"x"],[6.46,"x"],[6.65,"r"],[7.15,"x"],[7.17,"x"],[7.22,"x"],[7.57,"x"],[7.72,"x"],[7.8,"x"],[7.86,"x"],[8.04,"x"],[8.08,"x"],[8.13,"x"],[8.19,"x"],[8.45,"x"],[8.57,"x"],[8.62,"x"],[8.99,"x"],[9.09,"x"],[9.16,"x"],[9.29,"x"],[9.34,"x"],[9.4,"x"],[9.83,"x"],[9.92,"b"],[10.37,"r"],[10.4,"x"],[10.46,"b"],[10.64,"x"],[10.71,"x"],[10.82,"x"],[10.87,"x"],[10.91,"x"],[11.07,"x"],[11.13,"x"],[11.24,"x"],[11.35,"x"],[11.43,"x"],[11.48,"x"],[11.53,"x"],[11.57,"x"],[11.61,"x"],[11.68,"x"],[11.75,"x"],[11.85,"x"],[11.89,"x"],[11.95,"x"],[12.0,"x"],[12.06,"x"],[12.15,"x"],[12.2,"x"],[12.29,"x"],[12.37,"b"],[12.74,"x"],[12.78,"x"],[12.96,"x"],[13.08,"b"],[13.45,"x"],[13.65,"x"],[13.71,"x"],[13.76,"b"],[14.13,"x"],[14.22,"x"],[14.29,"x"],[14.34,"b"],[14.59,"x"],[14.63,"x"],[14.81,"x"],[14.88,"x"],[14.92,"b"],[15.17,"x"],[15.23,"x"],[15.33,"b"],[15.56,"x"],[15.61,"x"],[17.05,"x"],[17.08,"x"],[17.45,"x"],[17.5,"x"],[20.0,"r"],[20.05,"x"],[20.21,"b"],[26.65,"x"],[26.73,"x"],[26.87,"x"],[26.92,"x"],[27.0,"x"],[27.06,"x"],[27.11,"x"],[27.17,"x"],[27.23,"x"],[27.39,"x"],[27.5,"x"],[27.63,"x"],[27.74,"x"],[27.89,"x"],[27.96,"b"],[28.39,"x"],[28.48,"x"],[28.55,"b"],[28.84,"x"],[28.91,"b"],[29.15,"x"],[29.21,"x"],[29.44,"x"],[29.5,"x"],[29.55,"x"],[29.6,"x"],[29.67,"x"],[29.72,"x"],[29.76,"x"],[29.82,"x"],[29.88,"b"],[30.08,"x"],[30.16,"x"],[30.2,"x"],[30.28,"x"],[30.33,"x"],[30.45,"x"],[30.56,"x"],[30.63,"b"],[30.93,"x"],[31.05,"x"],[31.1,"b"],[31.64,"x"],[31.71,"x"],[31.98,"b"],[32.3,"x"],[32.35,"b"],[34.15,"x"],[34.22,"x"],[34.27,"x"],[34.33,"b"],[34.69,"x"],[34.73,"x"],[34.76,"x"],[34.79,"x"],[34.85,"x"],[34.89,"b"],[35.11,"x"],[35.16,"x"],[35.22,"x"],[35.26,"x"],[35.31,"x"],[35.44,"x"],[35.48,"b"],[35.67,"x"],[35.79,"b"],[35.89,"x"],[35.96,"x"],[36.0,"x"],[36.11,"x"],[36.22,"x"],[36.29,"x"],[36.37,"x"],[36.42,"b"],[36.67,"x"],[36.75,"x"],[36.79,"b"],[36.96,"x"],[37.02,"b"]];
   var MOMENTS = [
-    [2.4, 1, "207 REA tools including Frida session management and static analysis. Let me inspect the schemas of the key tools I'll need."],
-    [3.7, 2, "FreeCADCmd exits immediately when stdin is a non-tty pipe. I need a PTY wrapper (<code>script</code>) to keep the REPL blocked."],
-    [5.1, 2, "Only <code>PyObject_CallOneArgs</code> is missing — I'll use tuple-based <code>PyObject_CallObject</code>."],
-    [5.9, 2, "<code>import</code> receives the string <code>'\\x01'</code> — the allocated UTF-8 buffer is somehow wrong."],
-    [6.6, 2, "Found it — <code>PyImport_ImportModule</code> and <code>PyObject_GetAttrString</code> take C strings, not PyUnicode. The <code>'\\x01'</code> was the object's refcount byte."],
-    [7.3, 2, "The full pipeline works — GIL, imports, document creation, modelling, volume, save. Architecture validated."],
-    [7.9, 2, "ptrace_scope=1 — REA must spawn its own target tree. Let me spawn a wrapper via REA that keeps freecadcmd alive."],
-    [12.2, 2, "Now I know: <code>Shape.exportStep/exportIges/exportStl</code> and <code>Import.insert</code> work; <code>Import.export</code>, <code>Part.export</code> for step, and <code>Mesh.insert</code> crash natively."],
-    [13.7, 2, "Import semantics fully mapped: <code>Import.insert</code> imports into an existing named doc (else falls back to a new unnamed one); <code>Part.insert</code> creates the named doc; <code>Mesh.read</code> returns a mesh object for STL."],
-    [16.4, 4, "Full workflow passes end-to-end. Building the image."],
-    [16.5, 4, "Base image runs as uid 1000 and <code>RUN chmod</code> hits files it can't chown. Switching to <code>sh</code> invocation of the launch script (no chmod needed)."],
-    [18.2, 4, "All 18 type identifiers and 55 identifier lines confirmed. Since I patched <code>agent.js</code> (error-string wording), re-validating end-to-end and rebuilding the image."]
+    [0.4, 1, "We have symbols in libpython. Good."],
+    [0.6, 2, "FreeCAD process gone! Our first gdb call crashed it. Oops. The app is no longer running."],
+    [1.3, 2, "Excellent! GIL works. Now we can inject arbitrary Python code into running FreeCAD via gdb."],
+    [3.0, 2, "App crashed again. Hmm. Calling <code>FreeCAD.newDocument</code> from Frida thread may have crashed FreeCAD. That's why we need main-thread dispatch."],
+    [4.5, 2, "Agent works. Now test creating objects on main thread."],
+    [7.7, 4, "MCP works end-to-end."],
+    [10.4, 4, "<code>try</code> works. Deployed MCP starts."],
+    [14.6, 2, "<code>Mesh.Mesh.cut</code> is a different operation (cuts with a polygon), not boolean subtraction. The boolean subtraction method is <code>difference</code>."],
+    [26.7, 4, "The review is very valuable. It identified many issues."],
+    [35.4, 2, "Aha! <code>hasattr(s,'Volume')</code> raises <code>RuntimeError: shape is invalid</code> instead of returning False. <code>hasattr</code> only catches <code>AttributeError</code>, not <code>RuntimeError</code>."],
+    [37.0, 4, "Everything is in order. Let's call <code>finish</code> again with concise notes. This should deliver."]
   ];
   var STAGE_NAMES = { 1: "Analyze", 2: "Test", 3: "Build", 4: "Check" };
   function pct(m) { return (m / END * 100).toFixed(3) + "%"; }
@@ -39,7 +38,7 @@
     ticks.appendChild(t);
   });
   var axis = document.getElementById("tl-axis");
-  [0, 3, 6, 9, 12, 15, 18].forEach(function (m) {
+  [0, 6, 12, 18, 24, 30, 36].forEach(function (m) {
     var s = document.createElement("span");
     s.style.left = pct(m);
     s.textContent = m;
