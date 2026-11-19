@@ -377,9 +377,8 @@ td.task { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
 
 @media (prefers-reduced-motion: reduce) { .pipe-svg .stage rect { transition: none; } }
 
-/* ---------- Result charts: PNG images, click to open full size ---------- */
-.chart-img { display: block; overflow: hidden; border: 1px solid var(--rule); border-radius: 12px; background: #ffffff; }
-.chart-img img { display: block; width: 100%; height: auto; }
+/* ---------- Result charts: PNG images ---------- */
+.chart-img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 12px; background: #ffffff; }
 
 /* ---------- Figure 7: run videos ---------- */
 .vid-stat { font-size: 15px; font-variant-numeric: tabular-nums; }
@@ -419,8 +418,6 @@ td.task { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
 @media (max-width: 520px) { .demo-big { font-size: 30px; } .demo-note { font-size: 12.5px; } .demo-stats { gap: 10px; } }
 
 /* Version switch at the bottom of the page. */
-.versions { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; margin-block: 48px 40px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 14.5px; color: var(--fg-2); }
-.versions a { color: var(--fg); }
 
 /* ---------- Figure 9: sketch of the next step ---------- */
 .vision { display: block; width: 100%; height: auto; min-width: 640px; font-family: var(--sans); }
