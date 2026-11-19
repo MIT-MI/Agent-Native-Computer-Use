@@ -38,28 +38,26 @@
 
   <figure class="demo" id="demo-lid">
     <div class="demo-stats">
-      <div><span class="demo-big">10×</span><span class="demo-note">faster, 4 min vs 40 min</span></div>
-      <div><span class="demo-big">57×</span><span class="demo-note">fewer tokens, 0.3M vs 17.2M</span></div>
-      <div><span class="demo-big">13/13</span><span class="demo-note">checks passed, vs 2/13</span></div>
+      <div><span class="demo-big">55×</span><span class="demo-note">faster, 44 s vs 40 min</span></div>
+      <div><span class="demo-big">34×</span><span class="demo-note">fewer tokens, 0.64M vs 22.1M</span></div>
+      <div><span class="demo-big">13/13</span><span class="demo-note">checks passed, vs 7/13</span></div>
     </div>
     <div class="vid-wrap">
-      <!-- 视频等待更换 -->
-      <video controls playsinline preload="metadata" poster="media/v6/lid-vent.jpg" src="media/v6/lid-vent.mp4" aria-label="Kimi K2.6 on the lid-vent task, computer use on the left and its MCP server on the right"></video>
+      <video controls playsinline preload="metadata" poster="media/v6/lid-vent.jpg" src="media/v6/lid-vent.mp4" aria-label="DeepSeek V4.1 Flash on the lid-vent task: computer use on the left, its MCP server built with REA in the middle, and the server built without REA on the right"></video>
     </div>
-    <figcaption><b>Demo 1.</b> Kimi K2.6 cuts vents into a lid in FreeCAD. The left side uses computer use. The right side uses the MCP server that the model built. The clocks show real elapsed time. Computer use ran until the 40-minute deadline and did not cut the vents.</figcaption>
+    <figcaption><b>Demo 1.</b> DeepSeek V4.1 Flash cuts vents into a lid in FreeCAD. The left panel uses computer use. The middle panel uses the MCP server that the model built with the reverse-engineering toolkit. The right panel uses a server that the model wrote without the toolkit. The clocks show real elapsed time. Computer use ran until the 40-minute deadline and did not cut the vents.</figcaption>
   </figure>
 
   <figure class="demo" id="demo-fruit">
     <div class="demo-stats">
-      <div><span class="demo-big">305</span><span class="demo-note">Kimi K3's average score with its MCP server, 3 rounds</span></div>
-      <div><span class="demo-big gui">68</span><span class="demo-note">Kimi K3's average score with computer use, 3 rounds</span></div>
-      <div><span class="demo-big">224 <small>vs 6</small></span><span class="demo-note">Kimi K3's average points earned during play</span></div>
+      <div><span class="demo-big">305</span><span class="demo-note">average score with its MCP server, 3 rounds</span></div>
+      <div><span class="demo-big gui">68</span><span class="demo-note">average score with computer use, 3 rounds</span></div>
+      <div><span class="demo-big">224 <small>vs 6</small></span><span class="demo-note">average points earned during play</span></div>
     </div>
     <div class="vid-wrap">
-      <!-- 视频等待更换 -->
-      <video controls playsinline preload="metadata" poster="media/v6/fruit-ninja.jpg" src="media/v6/fruit-ninja.mp4" aria-label="DeepSeek V4.1 Flash playing Fruit Ninja, computer use on the left and its MCP server on the right"></video>
+      <video controls playsinline preload="metadata" poster="media/v6/fruit-ninja.jpg" src="media/v6/fruit-ninja.mp4" aria-label="Kimi K3 playing Fruit Ninja: computer use on the left, the server built without REA in the middle, and its MCP server built with REA on the right"></video>
     </div>
-    <figcaption><b>Demo 2.</b> DeepSeek V4.1 Flash plays a 60-second round of Fruit Ninja, shown at 2× speed. The left side uses computer use. The right side uses the MCP server that the model built from the game's binary. The numbers above the video are Kimi K3's averages over three rounds (Figures 8 and 9).</figcaption>
+    <figcaption><b>Demo 2.</b> Kimi K3 plays a 60-second round of Fruit Ninja, shown at 2× speed. The left panel uses computer use. The middle panel uses a server that the model built without the toolkit. The right panel uses the MCP server that the model built from the game's binary with the toolkit.</figcaption>
   </figure>
 
   <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation. For closed-source software, there is no source code to generate them from.</p>
@@ -391,23 +389,22 @@
     <figcaption><b>Figure 6.</b> Time spent on each task, averaged over three runs. The limit under each task name is its deadline.</figcaption>
   </figure>
 
-  <p>Two other models show the same gap. GLM-5.3 passed every check on all five tasks with the MCP server it built, and it finished the longest task in 79 seconds on average. Kimi K2.6 did each task once with its MCP server and once with computer use. It passed 87% of the checks with its MCP server and 33% with computer use. Figure 7 shows Kimi's runs on three of the tasks.</p>
+  <p>Figure 7 shows one run of each kind on three of the tasks. Two other models show the same gap. GLM-5.3 passed every check on all five tasks with the MCP server it built, and it finished the longest task in 79 seconds on average. Kimi K2.6 did each task once with its MCP server and once with computer use. It passed 87% of the checks with its MCP server and 33% with computer use.</p>
 
   <figure id="fig-video">
-    <p class="fig-title">Three of the five tasks, with the two runs shown side by side</p>
+    <p class="fig-title">Three of the five tasks, with the three runs shown side by side</p>
     <div class="fig-tools">
       <div class="seg" role="group" aria-label="Task">
         <button type="button" data-vid="enclosure" aria-pressed="true">Enclosure</button>
         <button type="button" data-vid="plate" aria-pressed="false">Board plate</button>
         <button type="button" data-vid="lid" aria-pressed="false">Lid vent</button>
       </div>
-      <span class="vid-stat" id="vid-stat">MCP server: 18/21 in 16 min, 2.2M tokens. Computer use: 2/21 in 47 min, 21.4M tokens.</span>
+      <span class="vid-stat" id="vid-stat">MCP server: 21/21 in 86 s, 1.8M tokens. Computer use: 13/21 in 90 min, 59.9M tokens. Without REA: 2/21 in 90 min, 5.2M tokens.</span>
     </div>
     <div class="vid-wrap">
-      <!-- 视频等待更换 -->
-      <video id="vid" controls playsinline preload="metadata" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="Kimi K2.6 on the enclosure task, computer use on the left and its MCP server on the right"></video>
+      <video id="vid" controls playsinline preload="metadata" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="DeepSeek V4.1 Flash on the enclosure task: computer use on the left, its MCP server built with REA in the middle, and the server built without REA on the right"></video>
     </div>
-    <figcaption><b>Figure 7.</b> Kimi K2.6 on three of the five tasks. The left side uses computer use and the right side uses its MCP server. Each side shows its real clock and the tokens it has used so far.</figcaption>
+    <figcaption><b>Figure 7.</b> DeepSeek V4.1 Flash on three of the five tasks. The left panel uses computer use, the middle panel uses the MCP server built with REA, and the right panel uses the server written without REA. Each panel shows its real clock and the tokens it has used so far.</figcaption>
   </figure>
 
 
@@ -417,7 +414,7 @@
     <!-- ===================================================== -->
   <h2 id="fruit-ninja">In a closed-source, real-time game, the model scores 4.5× higher with its MCP server</h2>
   <p>FreeCAD is open source, and its tasks have no time pressure. Fruit Ninja is closed source and runs in real time. While the model is thinking, fruit falls off the screen.</p>
-  <p>We give Kimi K3 the game's binary and REA, and it builds an MCP server in the same four steps. The same model then plays three 60-second rounds with the server and three rounds with computer use. <b>The model averaged 304.7 points per round with its MCP server and 67.7 points with computer use</b> (Figure 8). Most of the computer-use score is a bonus that the game adds when a round ends. During play, the model averaged 224 points per round with its MCP server and 6 points with computer use (Figure 9).</p>
+  <p>We give Kimi K3 the game's binary and REA, and it builds an MCP server in the same four steps. The same model then plays three 60-second rounds with the server and three rounds with computer use. <b>The model averaged 304.7 points per round with its MCP server and 67.7 points with computer use</b> (Figure 8). Demo 2 shows the first of the three rounds. Most of the computer-use score is a bonus that the game adds when a round ends. During play, the model averaged 224 points per round with its MCP server and 6 points with computer use (Figure 9).</p>
   <p>We also ran the build without REA. The server from that build averaged 140.7 points per round, and 90 points during play. This is more than computer use, and less than half of what the server built with REA scored.</p>
 
   <figure id="fig-fn-score">
@@ -430,7 +427,7 @@
     <figcaption><b>Figure 9.</b> The same three rounds, counting only the points earned during play.</figcaption>
   </figure>
 
-  <p>DeepSeek V4.1 Flash shows the same gap. Over three rounds, it averaged 295.0 points with the MCP server it built and 78.7 points with computer use. In the round shown in Demo 2, it earned 288 points during play with its MCP server and 9 points with computer use.</p>
+  <p>DeepSeek V4.1 Flash shows the same gap. Over three rounds, it averaged 295.0 points with the MCP server it built and 78.7 points with computer use.</p>
   <p>In the server that DeepSeek V4.1 Flash built, the <code>game_state</code> tool reads the score, the clock, and the fruit and bombs from the game process. The <code>slice</code> tool plans one stroke through the fruit and performs it. The model does not need to find the fruit in an image.</p>
 
   <figure id="fig-fn-tools">
@@ -452,7 +449,7 @@
   <p>An experienced FreeCAD user does not need to analyze the screen to know what to do next. To cut a vent into a lid, they already know the operations: make a box, place it, and subtract it from the lid. In the GOMS model of skilled computer use, an expert knows goals and the methods that reach them, and clicks and keystrokes are only how the methods get carried out (Card, Moran and Newell, 1983). Blind people use software through a screen reader that reads the names of the buttons and menus aloud. Experienced users often write scripts instead of clicking.</p>
 
   <h3>A model works with a tool call more cheaply than with a screenshot</h3>
-  <p>The same information can be easy or hard to use depending on how it is presented. A person reads a diagram faster than a paragraph that says the same thing (<a href="https://doi.org/10.1111/j.1551-6708.1987.tb00863.x">Larkin and Simon, 1987</a>). A language model is the opposite, and works with text more cheaply than with images. The call <code>add_box(length=40, width=3, height=7)</code> and a screenshot of the lid describe the same step. With the screenshot, the model has to find the right field, work out where to click, and read the result from another screenshot. On lid-vent, computer use spent 17.2M tokens and the MCP run spent 0.3M.</p>
+  <p>The same information can be easy or hard to use depending on how it is presented. A person reads a diagram faster than a paragraph that says the same thing (<a href="https://doi.org/10.1111/j.1551-6708.1987.tb00863.x">Larkin and Simon, 1987</a>). A language model is the opposite, and works with text more cheaply than with images. The call <code>add_box(length=40, width=3, height=7)</code> and a screenshot of the lid describe the same step. With the screenshot, the model has to find the right field, work out where to click, and read the result from another screenshot. On the lid-vent run in Demo 1, computer use spent 22.1M tokens and the MCP run spent 0.64M.</p>
 
   <h3>An agent can play with the software before it has a task</h3>
   <p>In our setting, the agent gets time to play with the program before it receives any task. It starts the program, tries things to see what happens, and learns what the program can do. About two thirds of the calls in GLM-5.3's build were like this. They added nothing to the server and only showed the agent how the program behaves. A Tetris player does something similar when they rotate a piece just to see where it fits (<a href="https://doi.org/10.1207/s15516709cog1804_1">Kirsh and Maglio, 1994</a>). After that, the agent turns what it learned into tools, so it is ready for tasks it has not seen yet.</p>
