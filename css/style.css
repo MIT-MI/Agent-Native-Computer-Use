@@ -377,8 +377,8 @@ td.task { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
 
 @media (prefers-reduced-motion: reduce) { .pipe-svg .stage rect { transition: none; } }
 
-/* ---------- Result charts: PNG images ---------- */
-.chart-img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 12px; background: #ffffff; }
+/* ---------- Result charts: vector figures set in Inter, like the page ---------- */
+.chart-img { display: block; width: 100%; min-width: 560px; height: auto; border: 1px solid var(--rule); border-radius: 12px; background: #ffffff; }
 
 /* ---------- Figure 7: run videos ---------- */
 .vid-stat { font-size: 15px; font-variant-numeric: tabular-nums; }

@@ -8,9 +8,8 @@ css/style.css       layout, light and dark themes
 js/pipeline.js      Figure 1, the clickable build loop
 js/timeline.js      Figure 2, the build timeline
 js/video.js         Figure 7, the run videos with one tab per task
-media/Freecad_*.png Figures 4 to 6, the FreeCAD result charts (DeepSeek V4.1 Flash, three runs)
-media/F_ninja*.png  Figures 8 and 9, the Fruit Ninja result charts (Kimi K3, three rounds)
-media/v6/*.mp4      run videos: computer use, MCP built with REA, MCP built without REA (FreeCAD with DeepSeek V4.1 Flash; Fruit Ninja with Kimi K3)
+media/chart-*.svg   Figures 4 to 6 (FreeCAD, DeepSeek V4.1 Flash) and 8 to 9 (Fruit Ninja, Kimi K3), the result charts
+media/v6/*.mp4      run videos: computer use against the MCP server, with the build shown first (FreeCAD with DeepSeek V4.1 Flash; Fruit Ninja with Kimi K3)
 media/v6/*.jpg      video posters
 ```
 
