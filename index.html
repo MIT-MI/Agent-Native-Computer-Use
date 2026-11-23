@@ -91,7 +91,7 @@
   </figure>
 
   <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation (<a href="#appendix-related">Appendix D</a>). For closed-source software, there is no source code to generate them from.</p>
-  <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program, finds a way into the running process, and writes an MCP server on top of it. For FreeCAD, the server injects a script that calls the program's own functions. For Fruit Ninja, it reads the game's memory. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We call this <b>blind computer use</b>.</p>
+  <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program, finds a way into the running process, and writes an MCP server on top of it. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We call this <b>blind computer use</b>.</p>
 
   
   <!-- ===================================================== -->
@@ -269,7 +269,7 @@
   <p>Each tool that comes out of a build does one whole operation. For example, the server that the agent built for FreeCAD has a <code>freecad_part_boolean</code> tool, so cutting a vent into the lid is one call, <code>freecad_part_boolean(operation=cut, base=Vented1, tool=Vent2, name=Vented2, document=sensor_lid)</code>. With computer use, the same model worked through FreeCAD's menus and dialogs for 40 minutes and did not cut any vent. <a href="#appendix-build">Appendix A</a> shows what the agent did during one build.</p>
 
   <h3 id="both-sides">A build changes both the harness and the environment</h3>
-  <p>Work on computer use usually changes one side. A better harness gives the agent better ways to look at the screen and to click, and the program stays as it is. <b>A build in our setting changes both sides</b> (<a href="#fig-path">Figure 2</a>). On the agent's side, the harness gets an MCP server, so the agent calls tools and does not use screenshots or a mouse. On the program's side, the server attaches to the running FreeCAD with Frida and injects a small script into it. The script receives each tool call and calls the matching FreeCAD functions on the program's main thread. The agent wrote both halves during the build, and a tool call works only when both are in place. <a href="#appendix-servers">Appendix B</a> describes the tools of both servers.</p>
+  <p>Work on computer use usually changes only the harness. The agent gets better ways to look at the screen and to click, and the program stays as it is. <b>A build in our setting changes both sides</b> (<a href="#fig-path">Figure 2</a>). The harness gets an MCP server. The running FreeCAD gets a script, injected with Frida, that receives each tool call and calls the matching FreeCAD functions. The agent wrote both halves, and a tool call works only when both are in place. <a href="#appendix-servers">Appendix B</a> describes the tools of both servers.</p>
 
   <figure id="fig-path">
     <div class="scroll-x">
@@ -380,7 +380,7 @@
     <figcaption><b>Figure 5.</b> The number of tool calls made on each task, averaged over three runs.</figcaption>
   </figure>
 
-  <p>The MCP runs also take fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>). <b>Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with a server built without REA, which the ablation below describes.</b> With computer use, almost every call is one click, one key press or one piece of typed text. With the MCP server, one call does a whole operation, such as resizing a part or cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call in one run.</p>
+  <p>The MCP runs also take fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>). <b>Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with a server built without REA.</b> A computer-use call is one click or one key press. An MCP call is a whole operation, such as cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call in one run.</p>
 
   <p><a href="#fig-video">Figure 6</a> shows three of the tasks with the computer-use run and the MCP run side by side.</p>
 
@@ -402,7 +402,7 @@
 
 
   <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>Without reverse-engineering tools, the server the agent builds is much less useful</h3></div>
-  <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that the agent built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). The server that the same model built with REA passed 100%. <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
+  <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that the agent built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
 
     <!-- ===================================================== -->
   <h2 id="fruit-ninja">Results on Fruit Ninja, a closed-source real-time game</h2>
@@ -419,13 +419,12 @@
     <figcaption><b>Figure 8.</b> The points earned during play in each Fruit Ninja round, without the bonuses.</figcaption>
   </figure>
 
-  <p><a href="#fig-fn-score">Figures 7</a> and <a href="#fig-fn-play">8</a> also show a server that the agent built without REA. As in the FreeCAD ablation, the agent could use the game through its window, but it had no reverse-engineering tools and could not read the game's files or memory. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
+  <p><a href="#fig-fn-score">Figures 7</a> and <a href="#fig-fn-play">8</a> also show a server that the agent built without REA. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
 
   <p>With its MCP server, the model does not make each slash with a separate call. The server has an <code>auto_play</code> tool that reads the positions of the fruit from the game process many times per second and performs the slashes. <b>The model played each round with one or two calls to this tool</b> (<a href="#appendix-servers">Appendix B</a>).</p>
 
   <!-- ===================================================== -->
   <h2 id="discussion">Discussion</h2>
-  <p>In this part, we share some of our interpretation of what we see in the results.</p>
 
   <h3 id="why-inside">What the reverse-engineering tools add</h3>
   <p><b>With REA, the agent gets inside the program.</b> In FreeCAD, it found the functions of the embedded Python interpreter among the exports of <code>libpython3.11</code>. It injected a script with Frida and ran FreeCAD's own Python API from that script on the program's main thread. Each tool then asks FreeCAD directly for its objects and calls FreeCAD's own functions. In Fruit Ninja, the agent found where the game keeps its fruit and bombs in memory. The server reads their exact positions and velocities many times per second and slashes from those numbers. A server built without REA offers similar tools, but it has to work through the window (<a href="#tab-servers">Table 2</a>).</p>
@@ -447,16 +446,14 @@
   <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 8</a>).</p>
 
   <h3 id="why-text">Tool calls and screenshots</h3>
-  <p>Screenshots are expensive for a model. On lid-vent, computer use spent 22.2M tokens and the MCP run spent 0.64M. <b>But using software does not have to go through vision.</b> Imagine an experienced FreeCAD user who wants to cut a vent into a lid. They know the operations before they look at anything: make a box, place it, and subtract it from the lid. They also know which tool they want before they open the menu that shows it. The screen is only how they get to the tool. A tool call lets the agent skip that part. The call <code>add_box(length=40, width=3, height=7)</code> names the operation directly, and the result comes back as text. With a screenshot, the model has to find the right field, work out where to click, and read the result from another screenshot.</p>
+  <p>Screenshots are expensive for a model. On lid-vent, computer use spent 22.2M tokens and the MCP run spent 0.64M. <b>But using software does not have to go through vision.</b> Imagine an experienced FreeCAD user who wants to cut a vent into a lid. They know the operations before they look at anything: make a box, place it, and subtract it from the lid. They also know which tool they want before they open the menu that shows it. The screen is only how they get to the tool. A tool call skips that part: <code>add_box(length=40, width=3, height=7)</code> names the operation directly.</p>
   <p>Earlier work found a smaller gain from tools. In OSWorld-MCP, adding MCP tools raised Claude 4 Sonnet's success rate from 40.1% to 43.3% (<a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). There the tools are given to the agent, and when a task needs something that they do not cover, the agent can only go back to the screen. In our setting, the agent builds the server itself and decides which operations it offers.</p>
 
   <!-- ===================================================== -->
-  <h2 id="next">Next step: updating the server during tasks</h2>
-  <p>In our experiments, the agent builds the server only once, before it sees any task. After it starts to receive tasks, it does not update the server. But the agent still has the program, and it can go back to it at any time.</p>
-  <p>The next step is to let the agent keep changing the server while it does tasks (<a href="#fig-vision">Figure 9</a>). The server is the agent's link to the software, and the agent built this link itself. So the agent can also decide what the link should look like. When a task is awkward with the current tools, the agent can go back to the binary and test how that part of the program behaves. Then it can add a tool, redesign a tool, or combine several steps into one tool. In Fruit Ninja, the agent already built one <code>auto_play</code> tool that plays a round by itself. Over time, the agent defines how it wants to work with the software, and the link evolves with the tasks it does. An MCP server built this way can also be shared with other agents.</p>
+  <h2 id="next">Next: the agent keeps reshaping its link to the environment</h2>
+    <p>In our experiments, the agent builds the server once, before it sees any task, and does not update it afterwards. The next step is to let the agent keep changing the server while it does tasks (<a href="#fig-vision">Figure 9</a>). When a task is awkward with the current tools, the agent can go back to the binary, test how that part of the program behaves, and then add a tool, redesign one, or combine several steps into one. In Fruit Ninja, the agent already built one <code>auto_play</code> tool that plays a round by itself. Over time, the link evolves with the tasks the agent does. A server built this way can also be shared with other agents.</p>
 
   <figure id="fig-vision">
-    <p class="fig-title">The agent keeps reshaping its link to the program as it works</p>
     <div class="scroll-x">
       <svg class="vision" viewBox="0 0 760 384" role="img" aria-label="A sketch. An agent on the left is connected to an installed program on the right by five lines, each one a tool. Three solid lines were built before the first task. Two dashed lines are tools the agent added or redesigned later. Below, a four-step loop: do a task through the server, notice what is awkward to do, go back into the program and test, reshape the server and keep it.">
         <defs>
@@ -516,10 +513,10 @@
         <text class="t-acc" x="382" y="372" text-anchor="middle">after each round, the link fits the agent's work better</text>
       </svg>
     </div>
-    <figcaption><b>Figure 9.</b> A sketch of the next step, not a result. Each line is one tool in the agent's server, and together the lines are the agent's link to the program.</figcaption>
+    <figcaption><b>Figure 9.</b> A sketch of how the server could change over time. This is not a result. Each line is one tool in the agent's server.</figcaption>
   </figure>
 
-  <p>If this works, a program does not need to ship an agent interface for agents to use it well. An agent starts with only the installed program, designs for itself how to work with it, and gets better at using it over time. Software is one kind of environment. We are excited about agents that shape their own links to the environments they work in, starting with the software on a computer.</p>
+  <p>If this works, a program does not need to ship an agent interface for agents to use it well. Software is one kind of environment. We are excited about agents that shape their own links to the environments they work in, starting with the software on a computer.</p>
   <!-- ===================================================== -->
   <p class="appx-label">Appendix</p>
   <h2 class="appx" id="appendix-build">A. What the agent does during a build</h2>
