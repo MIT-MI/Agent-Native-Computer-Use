@@ -44,9 +44,7 @@
     <li><a href="#discussion">Discussion</a>
       <ol>
         <li><a href="#why-inside">Reverse-engineering tools</a></li>
-        <li><a href="#why-skill">Skilled users</a></li>
         <li><a href="#why-text">Tool calls and screenshots</a></li>
-        <li><a href="#why-play">Exploring first</a></li>
       </ol>
     </li>
     <li><a href="#next">Next</a></li>
@@ -448,16 +446,10 @@
   </figure>
   <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 8</a>).</p>
 
-  <h3 id="why-skill">How skilled users work</h3>
-  <p>An experienced FreeCAD user does not need to analyze the screen to know what to do next. To cut a vent into a lid, they already know the operations: make a box, place it, and subtract it from the lid. In the GOMS model of skilled computer use, an expert knows goals and the methods that reach them, and clicks and keystrokes are only how the methods get carried out (Card, Moran and Newell, 1983). Blind people use software through a screen reader that reads the names of the buttons and menus aloud. Experienced users often write scripts instead of clicking.</p>
-
   <h3 id="why-text">Tool calls and screenshots</h3>
-  <p>The same information can be easy or hard to use depending on how it is presented. A person reads a diagram faster than a paragraph that says the same thing (<a href="https://doi.org/10.1111/j.1551-6708.1987.tb00863.x">Larkin and Simon, 1987</a>). A language model is the opposite, and works with text more cheaply than with images. The call <code>add_box(length=40, width=3, height=7)</code> and a screenshot of the lid describe the same step. With the screenshot, the model has to find the right field, work out where to click, and read the result from another screenshot. On lid-vent, computer use spent 22.2M tokens and the MCP run spent 0.64M.</p>
+  <p>Screenshots are expensive for a model. On lid-vent, computer use spent 22.2M tokens and the MCP run spent 0.64M. <b>But using software does not have to go through vision.</b> Imagine an experienced FreeCAD user who wants to cut a vent into a lid. They know the operations before they look at anything: make a box, place it, and subtract it from the lid. They also know which tool they want before they open the menu that shows it. The screen is only how they get to the tool. A tool call lets the agent skip that part. The call <code>add_box(length=40, width=3, height=7)</code> names the operation directly, and the result comes back as text. With a screenshot, the model has to find the right field, work out where to click, and read the result from another screenshot.</p>
+  <p>Earlier work found a smaller gain from tools. In OSWorld-MCP, adding MCP tools raised Claude 4 Sonnet's success rate from 40.1% to 43.3% (<a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). In that benchmark the tools are a fixed set that the agent is given, and they help on 69% of the tasks. When a task needs something that the tools do not cover, the agent can only go back to the screen. In our setting, the agent builds the server itself and decides which operations it offers.</p>
 
-  <h3 id="why-play">Exploring the program before the task</h3>
-  <p>In our setting, the agent gets time to play with the program before it receives any task. It starts the program, tries things to see what happens, and learns what the program can do. About two fifths of the calls in one FreeCAD build were like this (<a href="#fig-tl">Figure A1</a>). They added nothing to the server and only showed the agent how the program behaves. A Tetris player does something similar when they rotate a piece just to see where it fits (<a href="https://doi.org/10.1207/s15516709cog1804_1">Kirsh and Maglio, 1994</a>). After that, the agent turns what it learned into tools, so it is ready for tasks it has not seen yet.</p>
-
-  <!-- ===================================================== -->
   <!-- ===================================================== -->
   <h2 id="next">Next step: updating the server during tasks</h2>
   <p>In our experiments, the agent builds the server only once, before it sees any task. After it starts to receive tasks, it does not update the server. But the agent still has the program, and it can go back to it at any time.</p>
