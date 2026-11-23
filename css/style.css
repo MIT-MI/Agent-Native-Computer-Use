@@ -450,3 +450,11 @@ td.task { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
 .vision .fb { stroke: var(--accent); stroke-width: 1.5; fill: none; stroke-dasharray: 5 3; }
 .vision .mk { fill: var(--fg-2); }
 .vision .mk-acc { fill: var(--accent); }
+
+/* An expandable list of the tool calls in one run. */
+details.trace { margin: 0 0 40px; padding: 12px 16px; border: 1px solid var(--rule); border-radius: 12px; }
+details.trace summary { cursor: pointer; font-size: 15px; font-weight: 600; }
+details.trace[open] summary { margin-bottom: 12px; }
+details.trace p { font-size: 15px; }
+details.trace td.task { white-space: normal; }
+details.trace tr:last-child td { border-bottom: 0; }

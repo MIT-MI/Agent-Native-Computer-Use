@@ -383,11 +383,33 @@
   </figure>
 
   <figure id="fig-exp1-calls">
-    <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-calls.svg" width="760" height="449" decoding="async" alt="Calls to each tool in run 1, 236 in total. freecad_get_object 42, freecad_create_object 23, freecad_part_boolean 23, freecad_set_properties 21, freecad_get_computed 18, freecad_get_property 17, freecad_list_objects 16, freecad_export_objects 12, freecad_list_documents 8, freecad_status 7, freecad_import_file 7, freecad_close_document 7, and 35 calls to 13 other tools."></div>
-    <figcaption><b>Figure 6.</b> The tool calls of DeepSeek V4.1 Flash on the five tasks in the first run, by tool.</figcaption>
+    <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-calls.svg" width="760" height="392" decoding="async" alt="Average number of tool calls on each task. Computer use: board-plate 150, cable-slot 152, service-standoffs 172, lid-vent 237, enclosure 754. MCP server built with REA: 32, 24, 41, 43 and 71. MCP server built without REA: 91, 89, 102, 178 and 292."></div>
+    <figcaption><b>Figure 6.</b> The number of tool calls DeepSeek V4.1 Flash made on each task, averaged over three runs.</figcaption>
   </figure>
 
-  <p>The MCP runs also take fewer steps. Averaged over three runs, the five tasks took 213 tool calls with the MCP server, and 1,464 mouse and keyboard actions with computer use. In the first run, the model used 25 of the server's 85 tools (Figure 6). About half of its 236 calls read the state of the document.</p>
+  <p>The MCP runs also take fewer tool calls (Figure 6). Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with the server built without REA. With computer use, almost every call is one click, one key press or one piece of typed text. With the MCP server, one call does a whole operation, such as resizing a part or cutting one part out of another.</p>
+
+  <details class="trace" id="trace-lid">
+    <summary>Every tool call in one run: lid-vent, 46 calls in 44 seconds</summary>
+    <p>This is the run shown in Demo 1. The model sent the 46 calls in 18 replies, because one reply can contain several calls. On the same task with computer use, the model made 264 calls in 40 minutes and passed 7 of the 13 checks.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th class="num">Calls</th><th>Tools</th><th>What the calls do</th></tr></thead>
+        <tbody>
+          <tr><td class="num">1–3</td><td class="task">freecad_status<br>freecad_list_documents<br>freecad_list_objects</td><td>Find the open document and list its 10 objects.</td></tr>
+          <tr><td class="num">4–13</td><td class="task">freecad_get_object ×10</td><td>Read the lid, the four screw holes, the four existing cuts and the gasket reference.</td></tr>
+          <tr><td class="num">14–18</td><td class="task">freecad_set_properties ×5</td><td>Resize the lid to 120 × 80 × 3 mm. Set the radius and position of the four screw holes.</td></tr>
+          <tr><td class="num">19–23</td><td class="task">freecad_create_object ×5</td><td>Create the five vent boxes, each 40 × 3 × 7 mm.</td></tr>
+          <tr><td class="num">24–28</td><td class="task">freecad_part_boolean ×5</td><td>Cut the vents out of the lid one after another, from Vented1 to Vented5.</td></tr>
+          <tr><td class="num">29–30</td><td class="task">freecad_recompute<br>freecad_get_object</td><td>Recompute the document and read the existing cut named Lid again.</td></tr>
+          <tr><td class="num">31–33</td><td class="task">freecad_save_document<br>freecad_export_objects ×2</td><td>Save the project. Export Vented5 to STEP and STL.</td></tr>
+          <tr><td class="num">34–38</td><td class="task">freecad_set_view_property<br>freecad_activate_view<br>freecad_view_action ×2<br>freecad_save_view_image</td><td>Show the final lid in the 3D view and save an image of it.</td></tr>
+          <tr><td class="num">39–40</td><td class="task">freecad_get_computed<br>freecad_list_sub_elements</td><td>Read the volume of the final lid and count its faces, edges and vertices.</td></tr>
+          <tr><td class="num">41–46</td><td class="task">freecad_get_object ×4<br>freecad_list_documents<br>freecad_get_report_view</td><td>Read back two vents, the last cut and the gasket reference. Confirm that the document is saved and that FreeCAD's report view is empty.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
 
   <figure id="fig-video">
     <p class="fig-title">Three of the five tasks, with the two runs shown side by side</p>
