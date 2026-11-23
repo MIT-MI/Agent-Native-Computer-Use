@@ -41,12 +41,12 @@
       </ol>
     </li>
     <li><a href="#fruit-ninja">Fruit Ninja</a></li>
-    <li><a href="#discussion">Why no screen is needed</a>
+    <li><a href="#discussion">Discussion</a>
       <ol>
-        <li><a href="#why-inside">Working inside the program</a></li>
-        <li><a href="#why-skill">Knowing the operations</a></li>
+        <li><a href="#why-inside">Reverse-engineering tools</a></li>
+        <li><a href="#why-skill">Skilled users</a></li>
         <li><a href="#why-text">Tool calls and screenshots</a></li>
-        <li><a href="#why-play">Playing before the task</a></li>
+        <li><a href="#why-play">Exploring first</a></li>
       </ol>
     </li>
     <li><a href="#next">Next</a></li>
@@ -70,26 +70,26 @@
 
   <figure class="demo" id="demo-lid">
     <div class="demo-stats">
-      <div><span class="demo-big">54×</span><span class="demo-note">faster, 44 s vs 40 min</span></div>
-      <div><span class="demo-big">35×</span><span class="demo-note">fewer tokens, 0.64M vs 22.2M</span></div>
-      <div><span class="demo-big">1.9×</span><span class="demo-note">more checks passed, 13/13 vs 7/13</span></div>
+      <div><span class="demo-big">44 s <small>vs 40 min</small></span><span class="demo-note">time on the task</span></div>
+      <div><span class="demo-big">0.64M <small>vs 22.2M</small></span><span class="demo-note">tokens used</span></div>
+      <div><span class="demo-big">13/13 <small>vs 7/13</small></span><span class="demo-note">checks passed</span></div>
     </div>
     <div class="vid-wrap">
       <video controls playsinline preload="none" poster="media/v6/lid-vent.jpg" src="media/v6/lid-vent.mp4" aria-label="The agent on the lid-vent task, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Demo 1.</b> The agent cuts vents into a lid in FreeCAD. The left side uses computer use. The right side uses the MCP server that the model built.</figcaption>
+    <figcaption><b>Demo 1.</b> The agent cuts vents into a lid in FreeCAD. The left side uses computer use. The right side uses the MCP server that the model built. The numbers above give the MCP server first and computer use second.</figcaption>
   </figure>
 
   <figure class="demo" id="demo-fruit">
     <div class="demo-stats">
-      <div><span class="demo-big">4.5×</span><span class="demo-note">higher average score, 305 vs 68 over 3 rounds</span></div>
-      <div><span class="demo-big">37×</span><span class="demo-note">more points during play on average, 225 vs 6</span></div>
-      <div><span class="demo-big">22×</span><span class="demo-note">more points during play in the round shown, 202 vs 9</span></div>
+      <div><span class="demo-big">305 <small>vs 68</small></span><span class="demo-note">average final score over 3 rounds</span></div>
+      <div><span class="demo-big">225 <small>vs 6</small></span><span class="demo-note">average points during play</span></div>
+      <div><span class="demo-big">202 <small>vs 9</small></span><span class="demo-note">points during play in the round shown</span></div>
     </div>
     <div class="vid-wrap">
       <video controls playsinline preload="none" poster="media/v6/fruit-ninja.jpg" src="media/v6/fruit-ninja.mp4" aria-label="The agent playing Fruit Ninja, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Demo 2.</b> The agent plays a 60-second round of Fruit Ninja, shown at 2× speed. The left side uses computer use. The right side uses the MCP server that the model built from the game's binary.</figcaption>
+    <figcaption><b>Demo 2.</b> The agent plays a 60-second round of Fruit Ninja, shown at 2× speed. The left side uses computer use. The right side uses the MCP server that the model built from the game's binary. The numbers above give the MCP server first and computer use second.</figcaption>
   </figure>
 
   <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation (<a href="#appendix-related">Appendix D</a>). For closed-source software, there is no source code to generate them from.</p>
@@ -142,37 +142,29 @@
         <rect x="134" y="86" width="112" height="90" rx="8"/>
         <circle class="badge" cx="152" cy="105" r="10"/><text class="badge-t" x="152" y="109" text-anchor="middle">1</text>
         <text class="t-st" x="144" y="138">Analyze</text>
-        <text class="t-sub m-rea" x="144" y="155">binary, exports,</text>
-        <text class="t-sub m-rea" x="144" y="169">linked libraries</text>
-        <text class="t-sub m-mem" x="144" y="155">nothing to</text>
-        <text class="t-sub m-mem" x="144" y="169">inspect</text>
+        <text class="t-sub" x="144" y="155">binary, exports,</text>
+        <text class="t-sub" x="144" y="169">linked libraries</text>
       </g>
       <g class="stage off" data-stage="2" tabindex="0" role="button" aria-label="Step 2, Test">
         <rect x="262" y="86" width="112" height="90" rx="8"/>
         <circle class="badge" cx="280" cy="105" r="10"/><text class="badge-t" x="280" y="109" text-anchor="middle">2</text>
         <text class="t-st" x="272" y="138">Test</text>
-        <text class="t-sub m-rea" x="272" y="155">run the program,</text>
-        <text class="t-sub m-rea" x="272" y="169">try each guess</text>
-        <text class="t-sub m-mem" x="272" y="155">program can't run,</text>
-        <text class="t-sub m-mem" x="272" y="169">memory only</text>
+        <text class="t-sub" x="272" y="155">run the program,</text>
+        <text class="t-sub" x="272" y="169">try each guess</text>
       </g>
       <g class="stage" data-stage="3" tabindex="0" role="button" aria-label="Step 3, Build">
         <rect x="390" y="86" width="112" height="90" rx="8"/>
         <circle class="badge" cx="408" cy="105" r="10"/><text class="badge-t" x="408" y="109" text-anchor="middle">3</text>
         <text class="t-st" x="400" y="138">Build</text>
-        <text class="t-sub m-rea" x="400" y="155">MCP server +</text>
-        <text class="t-sub m-rea" x="400" y="169">injected script</text>
-        <text class="t-sub m-mem" x="400" y="155">written from</text>
-        <text class="t-sub m-mem" x="400" y="169">memory</text>
+        <text class="t-sub" x="400" y="155">MCP server +</text>
+        <text class="t-sub" x="400" y="169">injected script</text>
       </g>
       <g class="stage" data-stage="4" tabindex="0" role="button" aria-label="Step 4, Check">
         <rect x="518" y="86" width="112" height="90" rx="8"/>
         <circle class="badge" cx="536" cy="105" r="10"/><text class="badge-t" x="536" y="109" text-anchor="middle">4</text>
         <text class="t-st" x="528" y="138">Check</text>
-        <text class="t-sub m-rea" x="528" y="155">real calls through</text>
-        <text class="t-sub m-rea" x="528" y="169">the built server</text>
-        <text class="t-sub m-mem" x="528" y="155">build image,</text>
-        <text class="t-sub m-mem" x="528" y="169">list tools only</text>
+        <text class="t-sub" x="528" y="155">real calls through</text>
+        <text class="t-sub" x="528" y="169">the built server</text>
       </g>
 
       <line class="flow" x1="102" y1="131" x2="132" y2="131" marker-end="url(#pw-a)"/>
@@ -185,14 +177,12 @@
       <g class="rail rea off">
         <line class="tool-link" x1="190" y1="176" x2="190" y2="206"/><line class="tool-link" x1="318" y1="176" x2="318" y2="206"/>
         <rect x="134" y="206" width="240" height="26" rx="13"/>
-        <text class="m-rea" x="254" y="223" text-anchor="middle">REA: inspect binaries, probe the live program</text>
-        <text class="m-mem" x="254" y="223" text-anchor="middle">REA withheld</text>
+        <text x="254" y="223" text-anchor="middle">REA: inspect binaries, probe the live program</text>
       </g>
       <g class="rail">
         <line class="tool-link" x1="574" y1="176" x2="574" y2="206"/>
         <rect x="518" y="206" width="112" height="26" rx="13"/>
-        <text class="m-rea" x="574" y="223" text-anchor="middle">try, review, finish</text>
-        <text class="m-mem" x="574" y="223" text-anchor="middle">build image only</text>
+        <text x="574" y="223" text-anchor="middle">try, review, finish</text>
       </g>
       <g class="rail">
         <rect x="134" y="242" width="496" height="26" rx="13"/>
@@ -209,8 +199,7 @@
         <text x="709" y="157" text-anchor="middle" class="t-mono">intermediate/</text>
         <text x="709" y="171" text-anchor="middle">notes</text>
         <line x1="672" x2="746" y1="186" y2="186"/>
-        <text x="709" y="208" text-anchor="middle" class="t-strong m-rea">85 working tools</text>
-        <text x="709" y="208" text-anchor="middle" class="t-strong m-mem">fails on call 1</text>
+        <text x="709" y="208" text-anchor="middle" class="t-strong">85 working tools</text>
       </g>
     </svg>
 
@@ -233,37 +222,29 @@
         <rect x="24" y="142" width="232" height="70" rx="8"/>
         <circle class="badge" cx="44" cy="162" r="10"/><text class="badge-t" x="44" y="166" text-anchor="middle">1</text>
         <text class="t-st" x="62" y="167">Analyze</text>
-        <text class="t-tool m-rea" x="246" y="167" text-anchor="end">REA + shell</text>
-        <text class="t-tool m-mem" x="246" y="167" text-anchor="end">REA withheld</text>
-        <text class="t-sub m-rea" x="62" y="188">binary, exports, linked libraries</text>
-        <text class="t-sub m-mem" x="62" y="188">nothing to inspect</text>
+        <text class="t-tool" x="246" y="167" text-anchor="end">REA + shell</text>
+        <text class="t-sub" x="62" y="188">binary, exports, linked libraries</text>
       </g>
       <g class="stage off" data-stage="2" tabindex="0" role="button" aria-label="Step 2, Test">
         <rect x="24" y="238" width="232" height="70" rx="8"/>
         <circle class="badge" cx="44" cy="258" r="10"/><text class="badge-t" x="44" y="262" text-anchor="middle">2</text>
         <text class="t-st" x="62" y="263">Test</text>
-        <text class="t-tool m-rea" x="246" y="263" text-anchor="end">REA + shell</text>
-        <text class="t-tool m-mem" x="246" y="263" text-anchor="end">REA withheld</text>
-        <text class="t-sub m-rea" x="62" y="284">run the program, try each guess</text>
-        <text class="t-sub m-mem" x="62" y="284">program can't run, memory only</text>
+        <text class="t-tool" x="246" y="263" text-anchor="end">REA + shell</text>
+        <text class="t-sub" x="62" y="284">run the program, try each guess</text>
       </g>
       <g class="stage" data-stage="3" tabindex="0" role="button" aria-label="Step 3, Build">
         <rect x="24" y="334" width="232" height="70" rx="8"/>
         <circle class="badge" cx="44" cy="354" r="10"/><text class="badge-t" x="44" y="358" text-anchor="middle">3</text>
         <text class="t-st" x="62" y="359">Build</text>
-        <text class="t-tool m-rea" x="246" y="359" text-anchor="end">files</text>
-        <text class="t-tool m-mem" x="246" y="359" text-anchor="end">files</text>
-        <text class="t-sub m-rea" x="62" y="380">MCP server + injected script</text>
-        <text class="t-sub m-mem" x="62" y="380">written from memory</text>
+        <text class="t-tool" x="246" y="359" text-anchor="end">files</text>
+        <text class="t-sub" x="62" y="380">MCP server + injected script</text>
       </g>
       <g class="stage" data-stage="4" tabindex="0" role="button" aria-label="Step 4, Check">
         <rect x="24" y="430" width="232" height="70" rx="8"/>
         <circle class="badge" cx="44" cy="450" r="10"/><text class="badge-t" x="44" y="454" text-anchor="middle">4</text>
         <text class="t-st" x="62" y="455">Check</text>
-        <text class="t-tool m-rea" x="246" y="455" text-anchor="end">shell + try</text>
-        <text class="t-tool m-mem" x="246" y="455" text-anchor="end">shell + image build</text>
-        <text class="t-sub m-rea" x="62" y="476">real calls through the built server</text>
-        <text class="t-sub m-mem" x="62" y="476">build image, list tools only</text>
+        <text class="t-tool" x="246" y="455" text-anchor="end">shell + try</text>
+        <text class="t-sub" x="62" y="476">real calls through the built server</text>
       </g>
       <line class="flow" x1="140" y1="212" x2="140" y2="236" marker-end="url(#pt-a)"/>
       <line class="flow" x1="140" y1="308" x2="140" y2="332" marker-end="url(#pt-a)"/>
@@ -279,8 +260,7 @@
         <rect x="8" y="552" width="344" height="92" rx="8"/>
         <text x="180" y="574" text-anchor="middle" class="t-h">Output</text>
         <text x="180" y="595" text-anchor="middle">mcp/ server + script, mcp/deps/, intermediate/</text>
-        <text x="180" y="622" text-anchor="middle" class="t-strong m-rea">85 working tools</text>
-        <text x="180" y="622" text-anchor="middle" class="t-strong m-mem">fails on the first call</text>
+        <text x="180" y="622" text-anchor="middle" class="t-strong">85 working tools</text>
       </g>
     </svg>
 
@@ -446,10 +426,10 @@
   <p>With its MCP server, the model does not make each slash with a separate call. The server has an <code>auto_play</code> tool that reads the positions of the fruit from the game process many times per second and performs the slashes. <b>The model played each round with one or two calls to this tool</b> (<a href="#appendix-servers">Appendix B</a>).</p>
 
   <!-- ===================================================== -->
-  <h2 id="discussion">Why an agent does not need the screen</h2>
+  <h2 id="discussion">Discussion</h2>
   <p>In this part, we share some of our interpretation of what we see in the results.</p>
 
-  <h3 id="why-inside">Reverse engineering lets the server work inside the program</h3>
+  <h3 id="why-inside">What the reverse-engineering tools add</h3>
   <p><b>With REA, the agent gets inside the program.</b> In FreeCAD, it found the functions of the embedded Python interpreter among the exports of <code>libpython3.11</code>. It injected a script with Frida and ran FreeCAD's own Python API from that script on the program's main thread. Each tool then asks FreeCAD directly for its objects and calls FreeCAD's own functions. In Fruit Ninja, the agent found where the game keeps its fruit and bombs in memory. The server reads their exact positions and velocities many times per second and slashes from those numbers. A server built without REA offers similar tools, but it has to work through the window (<a href="#tab-servers">Table 2</a>).</p>
 
   <figure id="tab-servers">
@@ -468,18 +448,18 @@
   </figure>
   <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 8</a>).</p>
 
-  <h3 id="why-skill">A skilled user knows which operations to do without studying the screen</h3>
+  <h3 id="why-skill">How skilled users work</h3>
   <p>An experienced FreeCAD user does not need to analyze the screen to know what to do next. To cut a vent into a lid, they already know the operations: make a box, place it, and subtract it from the lid. In the GOMS model of skilled computer use, an expert knows goals and the methods that reach them, and clicks and keystrokes are only how the methods get carried out (Card, Moran and Newell, 1983). Blind people use software through a screen reader that reads the names of the buttons and menus aloud. Experienced users often write scripts instead of clicking.</p>
 
-  <h3 id="why-text">A model works with a tool call more cheaply than with a screenshot</h3>
+  <h3 id="why-text">Tool calls and screenshots</h3>
   <p>The same information can be easy or hard to use depending on how it is presented. A person reads a diagram faster than a paragraph that says the same thing (<a href="https://doi.org/10.1111/j.1551-6708.1987.tb00863.x">Larkin and Simon, 1987</a>). A language model is the opposite, and works with text more cheaply than with images. The call <code>add_box(length=40, width=3, height=7)</code> and a screenshot of the lid describe the same step. With the screenshot, the model has to find the right field, work out where to click, and read the result from another screenshot. On lid-vent, computer use spent 22.2M tokens and the MCP run spent 0.64M.</p>
 
-  <h3 id="why-play">An agent can play with the software before it has a task</h3>
+  <h3 id="why-play">Exploring the program before the task</h3>
   <p>In our setting, the agent gets time to play with the program before it receives any task. It starts the program, tries things to see what happens, and learns what the program can do. About two fifths of the calls in one FreeCAD build were like this (<a href="#fig-tl">Figure A1</a>). They added nothing to the server and only showed the agent how the program behaves. A Tetris player does something similar when they rotate a piece just to see where it fits (<a href="https://doi.org/10.1207/s15516709cog1804_1">Kirsh and Maglio, 1994</a>). After that, the agent turns what it learned into tools, so it is ready for tasks it has not seen yet.</p>
 
   <!-- ===================================================== -->
   <!-- ===================================================== -->
-  <h2 id="next">Next: let agents shape their own link to the environment</h2>
+  <h2 id="next">Next step: updating the server during tasks</h2>
   <p>In our experiments, the agent builds the server only once, before it sees any task. After it starts to receive tasks, it does not update the server. But the agent still has the program, and it can go back to it at any time.</p>
   <p>The next step is to let the agent keep changing the server while it does tasks (<a href="#fig-vision">Figure 9</a>). The server is the agent's link to the software, and the agent built this link itself. So the agent can also decide what the link should look like. When a task is awkward with the current tools, the agent can go back to the binary and test how that part of the program behaves. Then it can add a tool, redesign a tool, or combine several steps into one tool. In Fruit Ninja, the agent already built one <code>auto_play</code> tool that plays a round by itself. Over time, the agent defines how it wants to work with the software, and the link evolves with the tasks it does. An MCP server built this way can also be shared with other agents.</p>
 

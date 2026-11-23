@@ -209,13 +209,6 @@ figcaption b { font-weight: 600; color: var(--fg); }
 .pipe-svg .rail.rea rect { fill: var(--accent-soft); stroke: var(--accent); }
 .pipe-svg .tool-link { stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 2 3; }
 .pipe-svg .t-tool { fill: var(--accent-ink); font-size: 10.5px; font-weight: 600; }
-.pipe.mem .pipe-svg .stage.off .t-tool { fill: var(--fg-2); }
-.pipe-svg .m-mem { display: none; }
-.pipe.mem .pipe-svg .m-mem { display: inline; }
-.pipe.mem .pipe-svg .m-rea { display: none; }
-.pipe.mem .pipe-svg .off { opacity: 0.38; }
-.pipe.mem .pipe-svg .off rect { stroke-dasharray: 4 3; }
-.pipe.mem .pipe-svg .fb, .pipe.mem .pipe-svg .t-fb { opacity: 0.2; }
 
 .stage-detail {
   margin-top: 14px;
@@ -247,8 +240,6 @@ figcaption b { font-weight: 600; color: var(--fg); }
 }
 .quote cite { display: block; margin-top: 4px; font-style: normal; font-size: 13.5px; color: var(--fg-2); }
 .quote code { font-size: 0.86em; padding: 0 4px; background: var(--code-bg); border-radius: 3px; overflow-wrap: anywhere; }
-.sd-mem { margin-top: 12px !important; padding-top: 10px; border-top: 1px dashed var(--line); }
-.sd-mem b { font-weight: 600; }
 
 /* Contract */
 pre {
@@ -415,11 +406,11 @@ td.task { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
 /* Demos under the TL;DR: headline numbers above each video. */
 .demo-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 12px; }
 .demo-stats > div { display: flex; flex-direction: column; gap: 2px; }
-.demo-big { font-size: 44px; font-weight: 800; line-height: 1.05; letter-spacing: -0.035em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.demo-big { font-size: 38px; font-weight: 800; line-height: 1.05; letter-spacing: -0.035em; color: var(--fg); font-variant-numeric: tabular-nums; }
 .demo-big.gui { color: var(--gui-ink); }
-.demo-big small { font-size: 0.5em; font-weight: 600; color: var(--gui-ink); letter-spacing: 0; }
+.demo-big small { font-size: 0.55em; font-weight: 600; color: var(--gui-ink); letter-spacing: 0; }
 .demo-note { font-size: 14px; line-height: 1.35; color: var(--fg-2); }
-@media (max-width: 520px) { .demo-big { font-size: 30px; } .demo-note { font-size: 12.5px; } .demo-stats { gap: 10px; } }
+@media (max-width: 520px) { .demo-big { font-size: 24px; } .demo-note { font-size: 12.5px; } .demo-stats { gap: 10px; } }
 
 /* Version switch at the bottom of the page. */
 
@@ -503,3 +494,5 @@ article > p b, .tldr b { font-weight: 650; }
 /* Keep the comparison tables readable on phones: they scroll sideways instead of squeezing. */
 #tab-tasks table, #tab-servers table { min-width: 600px; }
 @media (max-width: 370px) { h1 { font-size: 28px; } }
+.demo-big small { white-space: nowrap; }
+@media (max-width: 520px) { .demo-big small { display: block; font-size: 13px; line-height: 1.5; } }
