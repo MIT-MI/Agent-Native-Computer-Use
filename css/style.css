@@ -257,7 +257,7 @@ pre .k { color: var(--accent-ink); }
 .rules { margin: 14px 0 0; padding-left: 20px; font-size: 16px; }
 .rules li { margin: 3px 0; }
 
-/* ---------- Figure 2: timeline ---------- */
+/* ---------- Figure A1: timeline ---------- */
 .tl { --h: 30px; }
 .tl-area { position: relative; margin: 0 6px; }
 .tl-marks { position: relative; height: 30px; }
@@ -375,7 +375,7 @@ td.task { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
 /* ---------- Result charts: vector figures set in Inter, like the page ---------- */
 .chart-img { display: block; width: 100%; min-width: 560px; height: auto; border: 1px solid var(--rule); border-radius: 12px; background: #ffffff; }
 
-/* ---------- Figure 7: run videos ---------- */
+/* ---------- Figure A3: run videos ---------- */
 .vid-stat { font-size: 15px; font-variant-numeric: tabular-nums; }
 .vid-wrap { overflow: hidden; border: 0; border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
 .vid-wrap video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--panel); }
@@ -414,7 +414,7 @@ td.task { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
 
 /* Version switch at the bottom of the page. */
 
-/* ---------- Figure 9: sketch of the next step ---------- */
+/* ---------- Figure 8: sketch of the next step ---------- */
 .vision { display: block; width: 100%; height: auto; min-width: 640px; font-family: var(--sans); }
 .vision text { fill: var(--fg); font-size: 11.5px; }
 .vision .t-h { font-size: 13.5px; font-weight: 600; }

@@ -915,8 +915,8 @@ z
    <g id="patch_7">
     <path d="M 350.856608 242.7264 
 L 372.95315 242.7264 
-L 372.95315 193.87436 
-L 350.856608 193.87436 
+L 372.95315 193.674852 
+L 350.856608 193.674852 
 z
 " clip-path="url(#pbd3376ecaa)" style="fill: #dd8452"/>
    </g>
@@ -1013,8 +1013,8 @@ z
     </g>
    </g>
    <g id="text_15">
-    <!-- 237 -->
-    <g style="fill: #48484a" transform="translate(355.269161 190.025519) scale(0.074 -0.074)">
+    <!-- 238 -->
+    <g style="fill: #48484a" transform="translate(355.269161 189.826011) scale(0.074 -0.074)">
      <defs>
       <path id="Inter-Regular-105" d="M 1984 -63 
 Q 1528 -63 1175 93 
@@ -1063,7 +1063,7 @@ z
      </defs>
      <use xlink:href="#Inter-Regular-104"/>
      <use xlink:href="#Inter-Regular-105" transform="translate(60.984375 0)"/>
-     <use xlink:href="#Inter-Regular-109" transform="translate(122.75 0)"/>
+     <use xlink:href="#Inter-Regular-10a" transform="translate(122.75 0)"/>
     </g>
    </g>
    <g id="text_16">

@@ -84,8 +84,8 @@
   <figure class="demo" id="demo-fruit">
     <div class="demo-stats">
       <div><span class="demo-big">305 <small>vs 68</small></span><span class="demo-note">average final score over 3 rounds</span></div>
-      <div><span class="demo-big">225 <small>vs 6</small></span><span class="demo-note">average points during play</span></div>
-      <div><span class="demo-big">202 <small>vs 9</small></span><span class="demo-note">points during play in the round shown</span></div>
+      <div><span class="demo-big">225 <small>vs 6</small></span><span class="demo-note">average points in play</span></div>
+      <div><span class="demo-big">202 <small>vs 9</small></span><span class="demo-note">points in play in the round shown</span></div>
     </div>
     <div class="vid-wrap">
       <video controls playsinline preload="none" poster="media/v6/fruit-ninja.jpg" src="media/v6/fruit-ninja.mp4" aria-label="The agent playing Fruit Ninja, computer use on the left and its MCP server on the right"></video>
@@ -366,7 +366,7 @@
 
 
   <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>The MCP server compared with computer use</h3></div>
-  <p>We use DeepSeek V4.1 Flash for both the builds and the tasks, and run each task three times per setup. <b>With its MCP server, the model passed every check on every task. With computer use, it passed 40%</b>: 74% on the shortest task, and nothing beyond the starting file on cable-slot and service-standoffs (<a href="#fig-exp1-task">Figure 3</a>). The MCP runs were also much cheaper. The five tasks took 4.4 minutes and 3.1M tokens, against 180.6 minutes and 127.1M tokens with computer use (<a href="#fig-exp1-time">Figure 4</a>). The build is a one-time cost per program, and the three builds took 37, 30 and 85 minutes. The gray bars in Figures 3 to 5 belong to the <a href="#exp2">ablation</a> below.</p>
+  <p>We use DeepSeek V4.1 Flash for both the builds and the tasks, and run each task three times per setup. <b>With its MCP server, the model passed every check on every task. With computer use, it passed 40%</b>: 74% on the shortest task, and nothing beyond the starting file on cable-slot and service-standoffs (<a href="#fig-exp1-task">Figure 3</a>). The MCP runs were also much cheaper. The five tasks took 4.5 minutes and 3.1M tokens, against 180.6 minutes and 127.1M tokens with computer use (<a href="#fig-exp1-time">Figure 4</a>). The build is a one-time cost per program, and the three builds took 37, 30 and 85 minutes. The gray bars in Figures 3 to 5 belong to the <a href="#exp2">ablation</a> below.</p>
 
   <figure id="fig-exp1-task">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-tasks.svg" width="760" height="392" decoding="async" alt="Share of checks passed on each task, averaged over three runs. Computer use: board-plate 74%, cable-slot 20%, service-standoffs 20%, lid-vent 41%, enclosure 43%. MCP server built with REA: 100% on every task. MCP server built without REA and the starting file: 33%, 20%, 20%, 15% and 10%."></div>
@@ -379,11 +379,11 @@
   </figure>
 
   <figure id="fig-exp1-calls">
-    <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-calls.svg" width="760" height="392" decoding="async" alt="Average number of tool calls on each task. Computer use: board-plate 150, cable-slot 152, service-standoffs 172, lid-vent 237, enclosure 754. MCP server built with REA: 32, 24, 41, 43 and 71. MCP server built without REA: 91, 89, 102, 178 and 292."></div>
+    <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-calls.svg" width="760" height="392" decoding="async" alt="Average number of tool calls on each task. Computer use: board-plate 150, cable-slot 152, service-standoffs 172, lid-vent 238, enclosure 754. MCP server built with REA: 32, 24, 41, 43 and 71. MCP server built without REA: 91, 89, 102, 178 and 292."></div>
     <figcaption><b>Figure 5.</b> The number of tool calls made on each task, averaged over three runs.</figcaption>
   </figure>
 
-  <p>The MCP runs also needed far fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>): <b>213 for the five tasks, against 1,464 with computer use</b>, averaged over three runs. One computer-use call is a click or a key press, while one MCP call is a whole operation, such as cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call of one run, and <a href="#appendix-videos">Appendix D</a> shows three tasks as side-by-side videos.</p>
+  <p>The MCP runs also needed far fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>): <b>211 for the five tasks, against 1,466 with computer use</b>, averaged over three runs. One computer-use call is a click or a key press, while one MCP call is a whole operation, such as cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call of one run, and <a href="#appendix-videos">Appendix D</a> shows three tasks as side-by-side videos.</p>
 
   <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>Without reverse-engineering tools, the server the agent builds is much less useful</h3></div>
   <p>To see how much the reverse-engineering tools matter, we repeat the build without REA. The agent can still run FreeCAD and use its window, but it cannot inspect the program's files or its running process. The servers it builds this way drive menus and dialogs and read the results from the window. <b>They passed no check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), used 752 tool calls (<a href="#fig-exp1-calls">Figure 5</a>) and ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). <a href="#tab-servers">Table 2</a> compares the two kinds of server.</p>
@@ -391,16 +391,16 @@
     <!-- ===================================================== -->
   <h2 id="fruit-ninja">Results on Fruit Ninja, a closed-source real-time game</h2>
   <p>FreeCAD is open source, although the agent got only its binaries, and its tasks have no time pressure. Fruit Ninja is closed source and runs in real time: fruit falls off the screen while the model is thinking.</p>
-  <p>Kimi K3 builds an MCP server from the game's binary and REA in the same four steps, then plays three 60-second rounds with the server and three with computer use. <b>It averaged 304.7 points per round with the server and 67.7 with computer use</b> (<a href="#fig-fn-score">Figure 6</a>). Most of the computer-use score is a bonus that the game adds when a round ends. In the round shown in Demo 2, the model earned 9 points during play with computer use and 202 with its server (<a href="#fig-fn-play">Figure 7</a>).</p>
+  <p>Kimi K3 builds an MCP server from the game's binary and REA in the same four steps, then plays three 60-second rounds with the server and three with computer use. <b>It averaged 304.7 points per round with the server and 67.7 with computer use</b> (<a href="#fig-fn-score">Figure 6</a>). Most of the computer-use score is a bonus that the game adds when a round ends. In the round shown in Demo 2, the model earned 9 points in play with computer use and 202 with its server (<a href="#fig-fn-play">Figure 7</a>).</p>
 
   <figure id="fig-fn-score">
     <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-final.svg" width="760" height="372" decoding="async" alt="Final score in each of three rounds. MCP server built with REA: 287, 328 and 299. MCP server built without REA: 115, 198 and 109. Computer use: 74, 66 and 63."></div>
-    <figcaption><b>Figure 6.</b> The final score in each Fruit Ninja round. It is the points earned during play plus the bonuses added when the round ends.</figcaption>
+    <figcaption><b>Figure 6.</b> The final score in each Fruit Ninja round. It is the points earned in play plus the bonuses added when the round ends.</figcaption>
   </figure>
 
   <figure id="fig-fn-play">
-    <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-play.svg" width="760" height="372" decoding="async" alt="Points earned during play in each of three rounds. MCP server built with REA: 202, 243 and 229. MCP server built without REA: 40, 137 and 93. Computer use: 9, 6 and 3."></div>
-    <figcaption><b>Figure 7.</b> The points earned during play in each Fruit Ninja round, without the bonuses.</figcaption>
+    <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-play.svg" width="760" height="372" decoding="async" alt="Points earned in play in each of three rounds. MCP server built with REA: 202, 243 and 229. MCP server built without REA: 40, 137 and 93. Computer use: 9, 6 and 3."></div>
+    <figcaption><b>Figure 7.</b> The points earned in play in each Fruit Ninja round, without the bonuses.</figcaption>
   </figure>
 
   <p><a href="#fig-fn-score">Figures 6</a> and <a href="#fig-fn-play">7</a> also show a server that the agent built without REA. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
@@ -427,7 +427,7 @@
   </div>
     <figcaption><b>Table 2.</b> How the servers built with and without REA read the state of the program and act on it.</figcaption>
   </figure>
-  <p>Without REA, the FreeCAD server had to read the window, and this was not reliable enough. In one run it misread the names in the model tree and could not find the object it was asked to change, and in another it could not switch workbenches. The model never sees the screen itself, so it could not work around these errors and did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points, and there the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average, and reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 7</a>).</p>
+  <p>Without REA, the FreeCAD server had to read the window, and this was not reliable enough. In one run it misread the names in the model tree and could not find the object it was asked to change, and in another it could not switch workbenches. The model never sees the screen itself, so it could not work around these errors and did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points, and there the two effects can be separated. Moving the real-time decisions from the model into the server raised the points in play from 6 to 90 on average, and reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 7</a>).</p>
 
   <h3 id="why-text">Tool calls and screenshots</h3>
   <p>Screenshots are expensive for a model: on lid-vent, computer use spent 22.2M tokens and the MCP run 0.64M. <b>But using software does not have to go through vision.</b> An experienced FreeCAD user who wants to cut a vent into a lid knows the operations before looking at anything (make a box, place it, subtract it from the lid), and knows which tool to use before opening the menu that shows it. The screen is only how they get to the tool. A tool call skips that part: <code>freecad_create_object(type=Part::Box, name=Vent1, properties={Length: 40 mm, Width: 3 mm, Height: 7 mm, ...})</code> names the operation directly.</p>

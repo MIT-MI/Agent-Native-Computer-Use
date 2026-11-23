@@ -4,7 +4,7 @@
 
   var VIDEOS = {
     enclosure: { file: "enclosure", stat: "MCP server: 21/21 in 86 s, 1.8M tokens. Computer use: 13/21 in 90 min, 59.9M tokens.", label: "the enclosure task" },
-    plate: { file: "board-plate", stat: "MCP server: 9/9 in 26 s, 0.6M tokens. Computer use: 3/9 in 20 min, 13.2M tokens.", label: "the board-plate task" },
+    plate: { file: "board-plate", stat: "MCP server: 9/9 in 25 s, 0.61M tokens. Computer use: 3/9 in 20 min, 13.2M tokens.", label: "the board-plate task" },
     lid: { file: "lid-vent", stat: "MCP server: 13/13 in 44 s, 0.64M tokens. Computer use: 7/13 in 40 min, 22.2M tokens.", label: "the lid-vent task" }
   };
   var video = document.getElementById("vid");
