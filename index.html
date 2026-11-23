@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Blind Computer Use</title>
+  <title>Blind Computer Use: When Agents Rewire the Software They Use</title>
   <meta name="description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Blind Computer Use: Given just a binary, language agents build their own tools for a program and use it better than agents that watch the screen">
+  <meta property="og:title" content="Blind Computer Use: When Agents Rewire the Software They Use">
   <meta property="og:description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
   <meta property="og:image" content="https://kaoru0822-kitauji.github.io/software-in-mcp-out/media/v6/lid-vent.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,6 +19,7 @@
   <div class="band">
     <div class="col">
       <h1><span class="hl nw">Blind</span> <span class="nw">Computer Use</span></h1>
+      <p class="title-2">When Agents Rewire the Software They Use</p>
       <p class="subtitle">Given just a binary, language agents build their own tools for a program and use it better than agents that watch the screen</p>
     </div>
   </div>
@@ -94,7 +95,7 @@
   </figure>
 
   <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation. For closed-source software, there is no source code to generate them from.</p>
-  <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program and writes an MCP server for it. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We observed superior performance and call this <b>blind computer use</b>.</p>
+  <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program, finds a way into the running process, and writes an MCP server on top of it. For FreeCAD, the server injects a script that calls the program's own functions. For Fruit Ninja, it reads the game's memory. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We observed superior performance and call this <b>blind computer use</b>.</p>
 
   
   <!-- ===================================================== -->
@@ -289,7 +290,80 @@
     <figcaption><b>Figure 1.</b> The four steps of the build. The details come from DeepSeek V4.1 Flash's FreeCAD build. A dashed arrow shows where the agent goes back to after a check fails. The bars under the steps show which tools the agent uses in each step.</figcaption>
   </figure>
 
-  <p>Each tool that comes out of a build does one whole operation. For example, the server that DeepSeek V4.1 Flash built has a <code>freecad_part_boolean</code> tool, so cutting a vent into the lid is one call, <code>freecad_part_boolean(operation=cut, base=Vented1, tool=Vent2, name=Vented2, document=sensor_lid)</code>. With computer use, the same model worked through FreeCAD's menus and dialogs for 40 minutes and did not cut any vent. <a href="#appendix-build">Appendix A</a> shows what the agent did during one build, and <a href="#appendix-servers">Appendix B</a> describes the servers that the agents built.</p>
+  <p>Each tool that comes out of a build does one whole operation. For example, the server that DeepSeek V4.1 Flash built has a <code>freecad_part_boolean</code> tool, so cutting a vent into the lid is one call, <code>freecad_part_boolean(operation=cut, base=Vented1, tool=Vent2, name=Vented2, document=sensor_lid)</code>. With computer use, the same model worked through FreeCAD's menus and dialogs for 40 minutes and did not cut any vent. <a href="#appendix-build">Appendix A</a> shows what the agent did during one build.</p>
+
+  <h3 id="both-sides">A build changes both the harness and the environment</h3>
+  <p>Work on computer use usually changes one side. A better harness gives the agent better ways to look at the screen and to click, and the program stays as it is. <b>A build in our setting changes both sides</b> (<a href="#fig-path">Figure 2</a>). On the agent's side, the harness gets an MCP server, so the agent calls tools and does not use screenshots or a mouse. On the program's side, the server attaches to the running FreeCAD with Frida and injects a small script into it. The script receives each tool call and calls the matching FreeCAD functions on the program's main thread. The agent wrote both halves during the build, and a tool call works only when both are in place. <a href="#appendix-servers">Appendix B</a> describes the tools of both servers.</p>
+
+  <figure id="fig-path">
+    <div class="scroll-x">
+      <svg class="mech" viewBox="0 -46 760 346" role="img" aria-label="The left half is the agent's harness, which gains a new MCP server. The right half is the environment, the running FreeCAD process, which gains an injected script. A task agent sends tools/call to the MCP server over stdio. The server finds the running FreeCAD process, attaches Frida, and forwards each call to an agent script inside the FreeCAD process, which calls FreeCAD's Python modules on the Qt main thread. FreeCAD writes the project and export files.">
+        <defs>
+          <marker id="m-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0 L10 5 L0 10 z"/></marker>
+          <marker id="m-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0 L10 5 L0 10 z"/></marker>
+        </defs>
+        <path class="zone" d="M2 -8 V-14 H292 V-8"/>
+        <text x="147" y="-34" text-anchor="middle" class="t-zone">Harness, changed</text>
+        <text x="147" y="-19" text-anchor="middle" class="t-lab">the agent gets a new MCP server</text>
+        <path class="zone-acc" d="M384 -8 V-14 H758 V-8"/>
+        <text x="571" y="-34" text-anchor="middle" class="t-zone-acc">Environment, changed</text>
+        <text x="571" y="-19" text-anchor="middle" class="t-lab">the running program gets an injected script</text>
+        <rect class="box" x="2" y="112" width="96" height="76" rx="8"/>
+        <text x="50" y="155" text-anchor="middle" class="t-h">Task agent</text>
+
+        <line class="flow" x1="98" y1="135" x2="150" y2="135" marker-end="url(#m-a)"/>
+        <text x="124" y="127" text-anchor="middle" class="t-lab">tools/call</text>
+        <line class="flow" x1="150" y1="165" x2="100" y2="165" marker-end="url(#m-a)"/>
+        <text x="124" y="182" text-anchor="middle" class="t-lab">result</text>
+
+        <rect class="box" x="152" y="56" width="140" height="188" rx="8"/>
+        <text x="222" y="80" text-anchor="middle" class="t-h">MCP server</text>
+        <text x="222" y="96" text-anchor="middle" class="t-mono">server.py, Python</text>
+        <text x="166" y="144" class="t-sub">finds the running</text>
+        <text x="166" y="160" class="t-sub">FreeCAD process</text>
+        <text x="166" y="180" class="t-sub">attaches with Frida</text>
+        <text x="166" y="200" class="t-sub">forwards each call</text>
+        <text x="166" y="216" class="t-sub">as {op, args}</text>
+
+        <rect class="proc" x="384" y="8" width="374" height="284" rx="10"/>
+        <text x="400" y="30" class="t-h">freecad-python3</text>
+
+        <line class="flow" x1="292" y1="100" x2="396" y2="100" marker-end="url(#m-a)"/>
+        <text x="338" y="92" text-anchor="middle" class="t-lab">attach, Frida</text>
+        <line class="flow" x1="292" y1="135" x2="396" y2="135" marker-end="url(#m-a)"/>
+        <text x="338" y="127" text-anchor="middle" class="t-lab">inject script</text>
+        <line class="flow-acc" x1="292" y1="180" x2="396" y2="180" marker-end="url(#m-b)"/>
+        <text x="338" y="172" text-anchor="middle" class="t-acc">{op, args}</text>
+        <line class="flow" x1="398" y1="212" x2="294" y2="212" marker-end="url(#m-a)"/>
+        <text x="338" y="228" text-anchor="middle" class="t-lab">result</text>
+
+        <rect class="inj" x="398" y="66" width="176" height="166" rx="8"/>
+        <text x="486" y="88" text-anchor="middle" class="t-h">agent.py (injected)</text>
+        <text x="410" y="114" class="t-mono">PyGILState_Ensure</text>
+        <text x="410" y="138" class="t-mono">PyRun_SimpleString</text>
+        <text x="410" y="162" class="t-mono">PyGILState_Release</text>
+        <text x="410" y="186" class="t-mono">Unix socket server</text>
+        <text x="410" y="210" class="t-mono">Qt main thread</text>
+
+        <rect class="box" x="604" y="66" width="140" height="112" rx="8"/>
+        <text x="674" y="88" text-anchor="middle" class="t-h">Embedded Python</text>
+        <text x="674" y="110" text-anchor="middle" class="t-mono">FreeCAD, FreeCADGui,</text>
+        <text x="674" y="128" text-anchor="middle" class="t-mono">Part, Sketcher,</text>
+        <text x="674" y="146" text-anchor="middle" class="t-mono">Mesh, Import</text>
+
+        <line class="flow-acc" x1="574" y1="122" x2="602" y2="122" marker-end="url(#m-b)"/>
+        <text x="588" y="114" text-anchor="middle" class="t-acc">calls</text>
+
+        <rect class="box" x="604" y="206" width="140" height="66" rx="8"/>
+        <text x="674" y="228" text-anchor="middle" class="t-mono">/app/work</text>
+        <text x="674" y="248" text-anchor="middle" class="t-sub">.FCStd .step</text>
+        <text x="674" y="264" text-anchor="middle" class="t-sub">.iges .brep .stl</text>
+        <line class="flow" x1="674" y1="178" x2="674" y2="204" marker-end="url(#m-a)"/>
+        <text x="666" y="196" text-anchor="end" class="t-lab">FreeCAD writes</text>
+      </svg>
+    </div>
+    <figcaption><b>Figure 2.</b> A build changes both the harness and the environment. On the left, the agent's harness gets the MCP server and its 85 tools. On the right, the running FreeCAD gets a script that the server injects with Frida. The bronze parts are what the agent worked out by testing: the injected script and the calls it makes to FreeCAD's functions.</figcaption>
+  </figure>
 
   <!-- ===================================================== -->
   <h2 id="results">How well do agents work with the MCP servers they built?</h2>
@@ -313,26 +387,26 @@
 
 
   <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>DeepSeek V4.1 Flash passed 100% of the checks with its MCP server and 40% with computer use</h3></div>
-  <p>DeepSeek V4.1 Flash does each task three times with its MCP server and three times with computer use. With computer use, DeepSeek passed 74% of the checks on the shortest task (<a href="#fig-exp1-task">Figure 2</a>). On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes and 3.1M tokens with the MCP server, and 180.6 minutes and 127.1M tokens with computer use (<a href="#fig-exp1-time">Figure 3</a> shows the time on each task). The build is a separate cost that the agent pays once per program, and DeepSeek V4.1 Flash's three builds took 37, 30 and 85 minutes.</p>
+  <p>DeepSeek V4.1 Flash does each task three times with its MCP server and three times with computer use. With computer use, DeepSeek passed 74% of the checks on the shortest task (<a href="#fig-exp1-task">Figure 3</a>). On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes and 3.1M tokens with the MCP server, and 180.6 minutes and 127.1M tokens with computer use (<a href="#fig-exp1-time">Figure 4</a> shows the time on each task). The build is a separate cost that the agent pays once per program, and DeepSeek V4.1 Flash's three builds took 37, 30 and 85 minutes.</p>
 
   <figure id="fig-exp1-task">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-tasks.svg" width="760" height="392" decoding="async" alt="Share of checks passed on each task, averaged over three runs. Computer use: board-plate 74%, cable-slot 20%, service-standoffs 20%, lid-vent 41%, enclosure 43%. MCP server built with REA: 100% on every task. MCP server built without REA and the starting file: 33%, 20%, 20%, 15% and 10%."></div>
-    <figcaption><b>Figure 2.</b> DeepSeek V4.1 Flash on the five tasks, averaged over three runs. The dashed line shows how many checks the starting file already passes before the agent does anything.</figcaption>
+    <figcaption><b>Figure 3.</b> DeepSeek V4.1 Flash on the five tasks, averaged over three runs. The dashed line shows how many checks the starting file already passes before the agent does anything.</figcaption>
   </figure>
 
   <figure id="fig-exp1-time">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-time.svg" width="760" height="392" decoding="async" alt="Average time per task in minutes. Computer use: 20.0, 20.0, 20.0, 30.5 and 90.1. MCP server built with REA: 0.6, 0.4, 1.0, 1.0 and 1.5. MCP server built without REA: 19.4, 19.5, 20.0, 39.5 and 84.6."></div>
-    <figcaption><b>Figure 3.</b> The time DeepSeek V4.1 Flash spent on each task, averaged over three runs.</figcaption>
+    <figcaption><b>Figure 4.</b> The time DeepSeek V4.1 Flash spent on each task, averaged over three runs.</figcaption>
   </figure>
 
   <figure id="fig-exp1-calls">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-calls.svg" width="760" height="392" decoding="async" alt="Average number of tool calls on each task. Computer use: board-plate 150, cable-slot 152, service-standoffs 172, lid-vent 237, enclosure 754. MCP server built with REA: 32, 24, 41, 43 and 71. MCP server built without REA: 91, 89, 102, 178 and 292."></div>
-    <figcaption><b>Figure 4.</b> The number of tool calls DeepSeek V4.1 Flash made on each task, averaged over three runs.</figcaption>
+    <figcaption><b>Figure 5.</b> The number of tool calls DeepSeek V4.1 Flash made on each task, averaged over three runs.</figcaption>
   </figure>
 
-  <p>The MCP runs also take fewer tool calls (<a href="#fig-exp1-calls">Figure 4</a>). <b>Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with the server built without REA.</b> With computer use, almost every call is one click, one key press or one piece of typed text. With the MCP server, one call does a whole operation, such as resizing a part or cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call in one run.</p>
+  <p>The MCP runs also take fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>). <b>Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with the server built without REA.</b> With computer use, almost every call is one click, one key press or one piece of typed text. With the MCP server, one call does a whole operation, such as resizing a part or cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call in one run.</p>
 
-  <p><a href="#fig-video">Figure 5</a> shows three of the tasks with the computer-use run and the MCP run side by side.</p>
+  <p><a href="#fig-video">Figure 6</a> shows three of the tasks with the computer-use run and the MCP run side by side.</p>
 
   <figure id="fig-video">
     <p class="fig-title">Three of the five tasks, with the two runs shown side by side</p>
@@ -347,29 +421,29 @@
     <div class="vid-wrap">
       <video id="vid" controls playsinline preload="none" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="DeepSeek V4.1 Flash on the enclosure task, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Figure 5.</b> DeepSeek V4.1 Flash on three of the five tasks. The left side uses computer use and the right side uses its MCP server. Each side shows its real clock and the tokens it has used so far.</figcaption>
+    <figcaption><b>Figure 6.</b> DeepSeek V4.1 Flash on three of the five tasks. The left side uses computer use and the right side uses its MCP server. Each side shows its real clock and the tokens it has used so far.</figcaption>
   </figure>
 
 
   <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>A server that the agent builds without reverse-engineering tools passes no new checks</h3></div>
-  <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that DeepSeek V4.1 Flash built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 2</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 3</a>). The server that the same model built with REA passed 100%. <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
+  <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that DeepSeek V4.1 Flash built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). The server that the same model built with REA passed 100%. <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
 
     <!-- ===================================================== -->
   <h2 id="fruit-ninja">In a closed-source, real-time game, the model scores 4.5× higher with its MCP server</h2>
   <p>FreeCAD is open source, and its tasks have no time pressure. Fruit Ninja is closed source and runs in real time. While the model is thinking, fruit falls off the screen.</p>
-  <p>We give Kimi K3 the game's binary and REA, and it builds an MCP server in the same four steps. The same model then plays three 60-second rounds with the server and three rounds with computer use. <b>The model averaged 304.7 points per round with its MCP server and 67.7 points with computer use</b> (<a href="#fig-fn-score">Figure 6</a>). Most of the computer-use score is a bonus that the game adds when a round ends. In the round shown in <a href="#demo-fruit">Demo 2</a>, the model earned 9 points during play with computer use and 202 points with its MCP server (<a href="#fig-fn-play">Figure 7</a>).</p>
+  <p>We give Kimi K3 the game's binary and REA, and it builds an MCP server in the same four steps. The same model then plays three 60-second rounds with the server and three rounds with computer use. <b>The model averaged 304.7 points per round with its MCP server and 67.7 points with computer use</b> (<a href="#fig-fn-score">Figure 7</a>). Most of the computer-use score is a bonus that the game adds when a round ends. In the round shown in <a href="#demo-fruit">Demo 2</a>, the model earned 9 points during play with computer use and 202 points with its MCP server (<a href="#fig-fn-play">Figure 8</a>).</p>
 
   <figure id="fig-fn-score">
     <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-final.svg" width="760" height="372" decoding="async" alt="Final score in each of three rounds. MCP server built with REA: 287, 328 and 299. MCP server built without REA: 115, 198 and 109. Computer use: 74, 66 and 63."></div>
-    <figcaption><b>Figure 6.</b> Kimi K3 at Fruit Ninja. The final score in each round is the points earned during play plus the bonuses added when the round ends.</figcaption>
+    <figcaption><b>Figure 7.</b> Kimi K3 at Fruit Ninja. The final score in each round is the points earned during play plus the bonuses added when the round ends.</figcaption>
   </figure>
 
   <figure id="fig-fn-play">
     <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-play.svg" width="760" height="372" decoding="async" alt="Points earned during play in each of three rounds. MCP server built with REA: 202, 243 and 229. MCP server built without REA: 40, 137 and 93. Computer use: 9, 6 and 3."></div>
-    <figcaption><b>Figure 7.</b> Kimi K3 at Fruit Ninja. The points earned during play in each round, without the bonuses.</figcaption>
+    <figcaption><b>Figure 8.</b> Kimi K3 at Fruit Ninja. The points earned during play in each round, without the bonuses.</figcaption>
   </figure>
 
-  <p><a href="#fig-fn-score">Figures 6</a> and <a href="#fig-fn-play">7</a> also show a server that Kimi K3 built without REA. As in the FreeCAD ablation, the agent could use the game through its window, but it had no reverse-engineering tools and could not read the game's files or memory. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
+  <p><a href="#fig-fn-score">Figures 7</a> and <a href="#fig-fn-play">8</a> also show a server that Kimi K3 built without REA. As in the FreeCAD ablation, the agent could use the game through its window, but it had no reverse-engineering tools and could not read the game's files or memory. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
 
   <p>With its MCP server, the model does not make each slash with a separate call. The server has an <code>auto_play</code> tool that reads the positions of the fruit from the game process many times per second and performs the slashes. <b>The model played each round with one or two calls to this tool</b> (<a href="#appendix-servers">Appendix B</a>).</p>
 
@@ -394,7 +468,7 @@
   </div>
     <figcaption><b>Table 2.</b> How the servers built with and without REA read the state of the program and act on it.</figcaption>
   </figure>
-  <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 7</a>).</p>
+  <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 8</a>).</p>
 
   <h3 id="why-skill">A skilled user knows which operations to do without studying the screen</h3>
   <p>An experienced FreeCAD user does not need to analyze the screen to know what to do next. To cut a vent into a lid, they already know the operations: make a box, place it, and subtract it from the lid. In the GOMS model of skilled computer use, an expert knows goals and the methods that reach them, and clicks and keystrokes are only how the methods get carried out (Card, Moran and Newell, 1983). Blind people use software through a screen reader that reads the names of the buttons and menus aloud. Experienced users often write scripts instead of clicking.</p>
@@ -427,7 +501,7 @@
   <!-- ===================================================== -->
   <h2 id="next">Next: let agents shape their own link to the environment</h2>
   <p>In our experiments, the agent builds the server only once, before it sees any task. After it starts to receive tasks, it does not update the server. But the agent still has the program, and it can go back to it at any time.</p>
-  <p>The next step is to let the agent keep changing the server while it does tasks (<a href="#fig-vision">Figure 8</a>). The server is the agent's link to the software, and the agent built this link itself. So the agent can also decide what the link should look like. When a task is awkward with the current tools, the agent can go back to the binary and test how that part of the program behaves. Then it can add a tool, redesign a tool, or combine several steps into one tool. In Fruit Ninja, the agent already chose to build one <code>auto_play</code> tool that plays a round by itself. Over time, the agent defines how it wants to work with the software, and the link evolves with the tasks it does. An MCP server built this way can also be shared with other agents.</p>
+  <p>The next step is to let the agent keep changing the server while it does tasks (<a href="#fig-vision">Figure 9</a>). The server is the agent's link to the software, and the agent built this link itself. So the agent can also decide what the link should look like. When a task is awkward with the current tools, the agent can go back to the binary and test how that part of the program behaves. Then it can add a tool, redesign a tool, or combine several steps into one tool. In Fruit Ninja, the agent already chose to build one <code>auto_play</code> tool that plays a round by itself. Over time, the agent defines how it wants to work with the software, and the link evolves with the tasks it does. An MCP server built this way can also be shared with other agents.</p>
 
   <figure id="fig-vision">
     <p class="fig-title">The agent keeps reshaping its link to the program as it works</p>
@@ -490,7 +564,7 @@
         <text class="t-acc" x="382" y="372" text-anchor="middle">after each round, the link fits the agent's work better</text>
       </svg>
     </div>
-    <figcaption><b>Figure 8.</b> A sketch of the next step, not a result. Each line is one tool in the agent's server, and together the lines are the agent's link to the program.</figcaption>
+    <figcaption><b>Figure 9.</b> A sketch of the next step, not a result. Each line is one tool in the agent's server, and together the lines are the agent's link to the program.</figcaption>
   </figure>
 
   <p>If this works, a program does not need to ship an agent interface for agents to use it well. An agent starts with only the installed program, designs for itself how to work with it, and gets better at using it over time. Software is one kind of environment. We are excited about agents that shape their own links to the environments they work in, starting with the software on a computer.</p>
@@ -523,75 +597,11 @@
   </figure>
 
   <h2 class="appx" id="appendix-servers">B. The MCP servers that the agents built</h2>
-  <h3 id="call-path">FreeCAD: how a tool call reaches the program</h3>
-  <p>The server lets the agent run FreeCAD's own operations with a tool call (<a href="#fig-path">Figure A2</a>). It finds the running FreeCAD, attaches to it with Frida, and injects a small script into it. When the agent calls a tool, the script calls the matching FreeCAD functions inside the running program, for example to save a document or export a STEP file. The server has 85 tools.</p>
-
-  <figure id="fig-path">
-    <div class="scroll-x">
-      <svg class="mech" viewBox="0 0 760 300" role="img" aria-label="A task agent sends tools/call to the MCP server over stdio. The server finds the running FreeCAD process, attaches Frida, and forwards each call to an agent script inside the FreeCAD process, which calls FreeCAD's Python modules on the Qt main thread. FreeCAD writes the project and export files.">
-        <defs>
-          <marker id="m-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0 L10 5 L0 10 z"/></marker>
-          <marker id="m-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0 L10 5 L0 10 z"/></marker>
-        </defs>
-        <rect class="box" x="2" y="112" width="96" height="76" rx="8"/>
-        <text x="50" y="155" text-anchor="middle" class="t-h">Task agent</text>
-
-        <line class="flow" x1="98" y1="135" x2="150" y2="135" marker-end="url(#m-a)"/>
-        <text x="124" y="127" text-anchor="middle" class="t-lab">tools/call</text>
-        <line class="flow" x1="150" y1="165" x2="100" y2="165" marker-end="url(#m-a)"/>
-        <text x="124" y="182" text-anchor="middle" class="t-lab">result</text>
-
-        <rect class="box" x="152" y="56" width="140" height="188" rx="8"/>
-        <text x="222" y="80" text-anchor="middle" class="t-h">MCP server</text>
-        <text x="222" y="96" text-anchor="middle" class="t-mono">server.py, Python</text>
-        <text x="166" y="144" class="t-sub">finds the running</text>
-        <text x="166" y="160" class="t-sub">FreeCAD process</text>
-        <text x="166" y="180" class="t-sub">attaches with Frida</text>
-        <text x="166" y="200" class="t-sub">forwards each call</text>
-        <text x="166" y="216" class="t-sub">as {op, args}</text>
-
-        <rect class="proc" x="384" y="8" width="374" height="284" rx="10"/>
-        <text x="400" y="30" class="t-h">freecad-python3</text>
-
-        <line class="flow" x1="292" y1="100" x2="396" y2="100" marker-end="url(#m-a)"/>
-        <text x="338" y="92" text-anchor="middle" class="t-lab">attach, Frida</text>
-        <line class="flow" x1="292" y1="135" x2="396" y2="135" marker-end="url(#m-a)"/>
-        <text x="338" y="127" text-anchor="middle" class="t-lab">inject script</text>
-        <line class="flow-acc" x1="292" y1="180" x2="396" y2="180" marker-end="url(#m-b)"/>
-        <text x="338" y="172" text-anchor="middle" class="t-acc">{op, args}</text>
-        <line class="flow" x1="398" y1="212" x2="294" y2="212" marker-end="url(#m-a)"/>
-        <text x="338" y="228" text-anchor="middle" class="t-lab">result</text>
-
-        <rect class="inj" x="398" y="66" width="176" height="166" rx="8"/>
-        <text x="486" y="88" text-anchor="middle" class="t-h">agent.py (injected)</text>
-        <text x="410" y="114" class="t-mono">PyGILState_Ensure</text>
-        <text x="410" y="138" class="t-mono">PyRun_SimpleString</text>
-        <text x="410" y="162" class="t-mono">PyGILState_Release</text>
-        <text x="410" y="186" class="t-mono">Unix socket server</text>
-        <text x="410" y="210" class="t-mono">Qt main thread</text>
-
-        <rect class="box" x="604" y="66" width="140" height="112" rx="8"/>
-        <text x="674" y="88" text-anchor="middle" class="t-h">Embedded Python</text>
-        <text x="674" y="110" text-anchor="middle" class="t-mono">FreeCAD, FreeCADGui,</text>
-        <text x="674" y="128" text-anchor="middle" class="t-mono">Part, Sketcher,</text>
-        <text x="674" y="146" text-anchor="middle" class="t-mono">Mesh, Import</text>
-
-        <line class="flow-acc" x1="574" y1="122" x2="602" y2="122" marker-end="url(#m-b)"/>
-        <text x="588" y="114" text-anchor="middle" class="t-acc">calls</text>
-
-        <rect class="box" x="604" y="206" width="140" height="66" rx="8"/>
-        <text x="674" y="228" text-anchor="middle" class="t-mono">/app/work</text>
-        <text x="674" y="248" text-anchor="middle" class="t-sub">.FCStd .step</text>
-        <text x="674" y="264" text-anchor="middle" class="t-sub">.iges .brep .stl</text>
-        <line class="flow" x1="674" y1="178" x2="674" y2="204" marker-end="url(#m-a)"/>
-        <text x="666" y="196" text-anchor="end" class="t-lab">FreeCAD writes</text>
-      </svg>
-    </div>
-    <figcaption><b>Figure A2.</b> How one tool call reaches FreeCAD in the server that DeepSeek V4.1 Flash built. The bronze parts are what the agent worked out by testing: the script it injects into FreeCAD and the calls the script makes.</figcaption>
-  </figure>
+  <h3 id="call-path">FreeCAD: 85 tools that call the program's own functions</h3>
+  <p>The server that DeepSeek V4.1 Flash built has 85 tools. Each tool calls FreeCAD's own functions inside the running program, for example to save a document or export a STEP file. <a href="#fig-path">Figure 2</a> shows the path of one call.</p>
 
   <h3 id="fn-tools">Fruit Ninja: five tools, and one of them plays the round</h3>
-  <p>The server that Kimi K3 built with REA has five tools (<a href="#fig-fn-tools">Figure A3</a>). Its <code>get_state</code> tool reads the score and the fruit and bombs from the game process. Its <code>auto_play</code> tool plays for a given number of seconds. It reads the positions of the fruit many times per second and performs the slashes. The model does not need to find the fruit in an image.</p>
+  <p>The server that Kimi K3 built with REA has five tools (<a href="#fig-fn-tools">Figure A2</a>). Its <code>get_state</code> tool reads the score and the fruit and bombs from the game process. Its <code>auto_play</code> tool plays for a given number of seconds. It reads the positions of the fruit many times per second and performs the slashes. The model does not need to find the fruit in an image.</p>
 
   <figure id="fig-fn-tools">
     <p class="fig-title">One of the five tools plays the round by itself</p>
@@ -602,7 +612,7 @@
       <div class="tool"><code>start_mode</code><p>Starts a round from the menus.</p></div>
       <div class="tool"><code>restart_round</code><p>Starts the same mode again after a round ends.</p></div>
     </div>
-    <figcaption><b>Figure A3.</b> The five tools in the MCP server that Kimi K3 built from the Fruit Ninja binary.</figcaption>
+    <figcaption><b>Figure A2.</b> The five tools in the MCP server that Kimi K3 built from the Fruit Ninja binary.</figcaption>
   </figure>
 
   <h2 class="appx" id="appendix-trace">C. Every tool call in one run</h2>
