@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Blind Computer Use: When Agents Rewire the Environment They Work In</title>
   <meta name="description" content="A language agent given a program's compiled binaries and a reverse-engineering toolkit finds a way into the running program and builds its own MCP server for it. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
-  <meta name="author" content="Yinzhen Huang, Yang Luo, Ao Qu, Paul Liang">
+  <meta name="author" content="Yinzhen Huang, Yang Luo, Ao Qu, Morluto, Paul Liang">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Blind Computer Use: When Agents Rewire the Environment They Work In">
   <meta property="og:description" content="A language agent given a program's compiled binaries and a reverse-engineering toolkit finds a way into the running program and builds its own MCP server for it. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
@@ -24,7 +24,7 @@
   </div>
   <div class="col">
     <div class="byline">
-      <div><h3>Authors</h3><p><span class="nw">Yinzhen Huang*<sup>1</sup></span>, <span class="nw">Yang Luo*<sup>1</sup></span>, <span class="nw">Ao Qu*<sup>†2</sup></span>, <span class="nw">Paul Liang<sup>2</sup></span></p><p class="byline-note"><sup>1</sup> <a href="https://github.com/morluto/rea">REA</a> team. <sup>2</sup> Massachusetts Institute of Technology. * Equal contribution. <sup>†</sup> Project lead.</p></div>
+      <div><h3>Authors</h3><p><span class="nw">Yinzhen Huang*<sup>1</sup></span>, <span class="nw">Yang Luo*<sup>1</sup></span>, <span class="nw">Ao Qu*<sup>†2</sup></span>, <span class="nw">Morluto<sup>1</sup></span>, <span class="nw">Paul Liang<sup>2</sup></span></p><p class="byline-note"><sup>1</sup> <a href="https://github.com/morluto/rea">REA</a> team. <sup>2</sup> Massachusetts Institute of Technology. * Equal contribution. <sup>†</sup> Project lead.</p></div>
       <div><h3>Published</h3><p>November 2026</p></div>
     </div>
   </div>
@@ -55,7 +55,8 @@
         <li><a href="#appendix-build">A. Inside one build</a></li>
         <li><a href="#appendix-servers">B. The MCP servers</a></li>
         <li><a href="#appendix-trace">C. One run, call by call</a></li>
-        <li><a href="#appendix-related">D. Prior work</a></li>
+        <li><a href="#appendix-videos">D. Three tasks, side by side</a></li>
+        <li><a href="#appendix-related">E. Prior work</a></li>
       </ol>
     </li>
   </ol>
@@ -77,7 +78,7 @@
     <div class="vid-wrap">
       <video controls playsinline preload="none" poster="media/v6/lid-vent.jpg" src="media/v6/lid-vent.mp4" aria-label="The agent on the lid-vent task, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Demo 1.</b> The agent cuts vents into a lid in FreeCAD. The left side uses computer use. The right side uses the MCP server that the model built. The numbers above give the MCP server first and computer use second.</figcaption>
+    <figcaption><b>Demo 1.</b> The agent cuts vents into a lid in FreeCAD. The left side uses computer use. The right side uses the MCP server that the model built, and draws the model inside FreeCAD after each tool call. The numbers above give the MCP server first and computer use second.</figcaption>
   </figure>
 
   <figure class="demo" id="demo-fruit">
@@ -92,7 +93,7 @@
     <figcaption><b>Demo 2.</b> The agent plays a 60-second round of Fruit Ninja, shown at 2× speed. The left side uses computer use. The right side uses the MCP server that the model built from the game's binary. The numbers above give the MCP server first and computer use second.</figcaption>
   </figure>
 
-  <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation (<a href="#appendix-related">Appendix D</a>). For closed-source software, there is no source code to generate them from.</p>
+  <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation (<a href="#appendix-related">Appendix E</a>). For closed-source software, there is no source code to generate them from.</p>
   <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program, finds a way into the running process, and writes an MCP server on top of it. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We call this <b>blind computer use</b>.</p>
 
   
@@ -382,26 +383,7 @@
     <figcaption><b>Figure 5.</b> The number of tool calls made on each task, averaged over three runs.</figcaption>
   </figure>
 
-  <p>The MCP runs also take fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>). <b>Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with a server built without REA.</b> A computer-use call is one click or one key press. An MCP call is a whole operation, such as cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call in one run.</p>
-
-  <p><a href="#fig-video">Figure 6</a> shows three of the tasks with the computer-use run and the MCP run side by side.</p>
-
-  <figure id="fig-video">
-    <p class="fig-title">Three of the five tasks, with the two runs shown side by side</p>
-    <div class="fig-tools">
-      <div class="seg" role="group" aria-label="Task">
-        <button type="button" data-vid="enclosure" aria-pressed="true">Enclosure</button>
-        <button type="button" data-vid="plate" aria-pressed="false">Board plate</button>
-        <button type="button" data-vid="lid" aria-pressed="false">Lid vent</button>
-      </div>
-      <span class="vid-stat" id="vid-stat">MCP server: 21/21 in 86 s, 1.8M tokens. Computer use: 13/21 in 90 min, 59.9M tokens.</span>
-    </div>
-    <div class="vid-wrap">
-      <video id="vid" controls playsinline preload="none" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="The agent on the enclosure task, computer use on the left and its MCP server on the right"></video>
-    </div>
-    <figcaption><b>Figure 6.</b> Three of the five tasks. The left side uses computer use and the right side uses its MCP server. Each side shows its real clock and the tokens it has used so far.</figcaption>
-  </figure>
-
+  <p>The MCP runs also take fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>). <b>Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with a server built without REA.</b> A computer-use call is one click or one key press. An MCP call is a whole operation, such as cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call in one run. <a href="#appendix-videos">Appendix D</a> shows three of the tasks as side-by-side videos.</p>
 
   <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>Without reverse-engineering tools, the server the agent builds is much less useful</h3></div>
   <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that the agent built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
@@ -409,19 +391,19 @@
     <!-- ===================================================== -->
   <h2 id="fruit-ninja">Results on Fruit Ninja, a closed-source real-time game</h2>
   <p>FreeCAD is open source, although we gave the agent only its binaries, and its tasks have no time pressure. Fruit Ninja is closed source and runs in real time. While the model is thinking, fruit falls off the screen.</p>
-  <p>We give Kimi K3 the game's binary and REA, and it builds an MCP server in the same four steps. The same model then plays three 60-second rounds with the server and three rounds with computer use. <b>The model averaged 304.7 points per round with its MCP server and 67.7 points with computer use</b> (<a href="#fig-fn-score">Figure 7</a>). Most of the computer-use score is a bonus that the game adds when a round ends. In the round shown in <a href="#demo-fruit">Demo 2</a>, the model earned 9 points during play with computer use and 202 points with its MCP server (<a href="#fig-fn-play">Figure 8</a>).</p>
+  <p>We give Kimi K3 the game's binary and REA, and it builds an MCP server in the same four steps. The same model then plays three 60-second rounds with the server and three rounds with computer use. <b>The model averaged 304.7 points per round with its MCP server and 67.7 points with computer use</b> (<a href="#fig-fn-score">Figure 6</a>). Most of the computer-use score is a bonus that the game adds when a round ends. In the round shown in <a href="#demo-fruit">Demo 2</a>, the model earned 9 points during play with computer use and 202 points with its MCP server (<a href="#fig-fn-play">Figure 7</a>).</p>
 
   <figure id="fig-fn-score">
     <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-final.svg" width="760" height="372" decoding="async" alt="Final score in each of three rounds. MCP server built with REA: 287, 328 and 299. MCP server built without REA: 115, 198 and 109. Computer use: 74, 66 and 63."></div>
-    <figcaption><b>Figure 7.</b> The final score in each Fruit Ninja round. It is the points earned during play plus the bonuses added when the round ends.</figcaption>
+    <figcaption><b>Figure 6.</b> The final score in each Fruit Ninja round. It is the points earned during play plus the bonuses added when the round ends.</figcaption>
   </figure>
 
   <figure id="fig-fn-play">
     <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-play.svg" width="760" height="372" decoding="async" alt="Points earned during play in each of three rounds. MCP server built with REA: 202, 243 and 229. MCP server built without REA: 40, 137 and 93. Computer use: 9, 6 and 3."></div>
-    <figcaption><b>Figure 8.</b> The points earned during play in each Fruit Ninja round, without the bonuses.</figcaption>
+    <figcaption><b>Figure 7.</b> The points earned during play in each Fruit Ninja round, without the bonuses.</figcaption>
   </figure>
 
-  <p><a href="#fig-fn-score">Figures 7</a> and <a href="#fig-fn-play">8</a> also show a server that the agent built without REA. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
+  <p><a href="#fig-fn-score">Figures 6</a> and <a href="#fig-fn-play">7</a> also show a server that the agent built without REA. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
 
   <p>With its MCP server, the model does not make each slash with a separate call. The server has an <code>auto_play</code> tool that reads the positions of the fruit from the game process many times per second and performs the slashes. <b>The model played each round with one or two calls to this tool</b> (<a href="#appendix-servers">Appendix B</a>).</p>
 
@@ -445,7 +427,7 @@
   </div>
     <figcaption><b>Table 2.</b> How the servers built with and without REA read the state of the program and act on it.</figcaption>
   </figure>
-  <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 8</a>).</p>
+  <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 7</a>).</p>
 
   <h3 id="why-text">Tool calls and screenshots</h3>
   <p>Screenshots are expensive for a model. On lid-vent, computer use spent 22.2M tokens and the MCP run spent 0.64M. <b>But using software does not have to go through vision.</b> Imagine an experienced FreeCAD user who wants to cut a vent into a lid. They know the operations before they look at anything: make a box, place it, and subtract it from the lid. They also know which tool they want before they open the menu that shows it. The screen is only how they get to the tool. A tool call skips that part: <code>add_box(length=40, width=3, height=7)</code> names the operation directly.</p>
@@ -453,7 +435,7 @@
 
   <!-- ===================================================== -->
   <h2 id="next">Next: the agent keeps reshaping its link to the environment</h2>
-    <p>In our experiments, the agent builds the server once, before it sees any task, and does not update it afterwards. The next step is to let the agent keep changing the server while it does tasks (<a href="#fig-vision">Figure 9</a>). When a task is awkward with the current tools, the agent can go back to the binary, test how that part of the program behaves, and then add a tool, redesign one, or combine several steps into one. In Fruit Ninja, the agent already built one <code>auto_play</code> tool that plays a round by itself. Over time, the link evolves with the tasks the agent does. A server built this way can also be shared with other agents.</p>
+    <p>In our experiments, the agent builds the server once, before it sees any task, and does not update it afterwards. The next step is to let the agent keep changing the server while it does tasks (<a href="#fig-vision">Figure 8</a>). When a task is awkward with the current tools, the agent can go back to the binary, test how that part of the program behaves, and then add a tool, redesign one, or combine several steps into one. In Fruit Ninja, the agent already built one <code>auto_play</code> tool that plays a round by itself. Over time, the link evolves with the tasks the agent does. A server built this way can also be shared with other agents.</p>
 
   <figure id="fig-vision">
     <div class="scroll-x">
@@ -515,7 +497,7 @@
         <text class="t-acc" x="382" y="372" text-anchor="middle">after each round, the link fits the agent's work better</text>
       </svg>
     </div>
-    <figcaption><b>Figure 9.</b> A sketch of how the server could change over time. This is not a result. Each line is one tool in the agent's server.</figcaption>
+    <figcaption><b>Figure 8.</b> A sketch of how the server could change over time. This is not a result. Each line is one tool in the agent's server.</figcaption>
   </figure>
 
   <p>If this works, a program does not need to ship an agent interface for agents to use it well. Software is one kind of environment. We are excited about agents that shape their own links to the environments they work in, starting with the software on a computer.</p>
@@ -591,7 +573,26 @@
   </figure>
 
 
-  <h2 class="appx" id="appendix-related">D. How this relates to prior work</h2>
+  <h2 class="appx" id="appendix-videos">D. Three tasks side by side</h2>
+  <p><a href="#fig-video">Figure A3</a> shows three of the five FreeCAD tasks, with the computer-use run and the MCP run on one clock. The lid-vent video is the one in <a href="#demo-lid">Demo 1</a>.</p>
+
+  <figure id="fig-video">
+    <p class="fig-title">Three of the five tasks, with the two runs shown side by side</p>
+    <div class="fig-tools">
+      <div class="seg" role="group" aria-label="Task">
+        <button type="button" data-vid="enclosure" aria-pressed="true">Enclosure</button>
+        <button type="button" data-vid="plate" aria-pressed="false">Board plate</button>
+        <button type="button" data-vid="lid" aria-pressed="false">Lid vent</button>
+      </div>
+      <span class="vid-stat" id="vid-stat">MCP server: 21/21 in 86 s, 1.8M tokens. Computer use: 13/21 in 90 min, 59.9M tokens.</span>
+    </div>
+    <div class="vid-wrap">
+      <video id="vid" controls playsinline preload="none" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="The agent on the enclosure task, computer use on the left and its MCP server on the right"></video>
+    </div>
+    <figcaption><b>Figure A3.</b> Three of the five tasks. The left side uses computer use and the right side uses the MCP server. The right side draws the model inside FreeCAD after each tool call, replayed from the calls recorded in the run. Each side shows its real clock and the tokens it has used so far.</figcaption>
+  </figure>
+
+  <h2 class="appx" id="appendix-related">E. How this relates to prior work</h2>
   <p>Earlier work shows that agents do better with APIs or MCP tools than with only the screen, on the web (<a href="https://arxiv.org/abs/2410.16464">Song et al.</a>) and on the desktop (<a href="https://arxiv.org/abs/2510.24563">OSWorld-MCP</a>). We ask a different question: where do the tools come from when nobody has written them? <a href="#tab-related">Table A2</a> places this post next to earlier answers.</p>
   <figure id="tab-related">
   <div class="table-wrap">
