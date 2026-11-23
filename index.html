@@ -592,22 +592,22 @@
 
 
   <h2 class="appx" id="appendix-related">D. How this relates to prior work</h2>
-  <p>Earlier work shows that agents do better with APIs or MCP tools than with only the screen. This has been shown on the web (<a href="https://arxiv.org/abs/2410.16464">Song et al.</a>), in IDEs (<a href="https://arxiv.org/abs/2502.18525">Aggarwal and Welleck</a>) and on the desktop (<a href="https://arxiv.org/abs/2504.14603">UFO2</a>, <a href="https://arxiv.org/abs/2508.03923">CoAct-1</a>, <a href="https://arxiv.org/abs/2510.24563">OSWorld-MCP</a>, <a href="https://arxiv.org/abs/2506.07672">MCPWorld</a>). We ask a different question: where do the tools come from when nobody has written them? <a href="#tab-related">Table A2</a> places this post next to earlier answers.</p>
+  <p>Earlier work shows that agents do better with APIs or MCP tools than with only the screen, on the web (<a href="https://arxiv.org/abs/2410.16464">Song et al.</a>) and on the desktop (<a href="https://arxiv.org/abs/2510.24563">OSWorld-MCP</a>). We ask a different question: where do the tools come from when nobody has written them? <a href="#tab-related">Table A2</a> places this post next to earlier answers.</p>
   <figure id="tab-related">
   <div class="table-wrap">
     <table class="rel">
       <thead><tr><th>Where the tools come from</th><th>What it needs</th><th>Examples</th></tr></thead>
       <tbody>
-        <tr><td>Written by the vendor or by other people</td><td>The program's own API, or its source</td><td><a href="https://blogs.windows.com/windowsdeveloper/2025/11/18/ignite-2025-furthering-windows-as-the-premier-platform-for-developers-governed-by-security/">Windows agent connectors</a>, <a href="https://github.com/neka-nat/freecad-mcp">freecad-mcp</a>, the servers in <a href="https://arxiv.org/abs/2508.14704">MCP-Universe</a> and <a href="https://arxiv.org/abs/2508.20453">MCP-Bench</a></td></tr>
-        <tr><td>Generated from source code or documentation</td><td>A code repository, an API specification, or manuals</td><td><a href="https://github.com/HKUDS/CLI-Anything">CLI-Anything</a>, <a href="https://arxiv.org/abs/2509.05941">Code2MCP</a>, <a href="https://arxiv.org/abs/2507.16044">AutoMCP</a>, <a href="https://arxiv.org/abs/2510.17790">UltraCUA</a>, <a href="https://arxiv.org/abs/2505.20286">Alita</a></td></tr>
-        <tr><td>Learned from using the program</td><td>Screen interaction, or recorded network traffic for web apps</td><td><a href="https://arxiv.org/abs/2504.07079">SkillWeaver</a>, <a href="https://arxiv.org/abs/2409.17140">AXIS</a>, <a href="https://arxiv.org/abs/2605.12481">ToolCUA</a>, <a href="https://github.com/Integuru-AI/Integuru">Integuru</a>, <a href="https://arxiv.org/abs/2604.00694">Unbrowse</a></td></tr>
+        <tr><td>Written by the vendor or by other people</td><td>The program's own API, or its source</td><td>The servers in <a href="https://arxiv.org/abs/2508.14704">MCP-Universe</a> and <a href="https://arxiv.org/abs/2508.20453">MCP-Bench</a></td></tr>
+        <tr><td>Generated from source code or documentation</td><td>A code repository, an API specification, or manuals</td><td><a href="https://arxiv.org/abs/2509.05941">Code2MCP</a>, <a href="https://arxiv.org/abs/2507.16044">AutoMCP</a></td></tr>
+        <tr><td>Learned from using the program</td><td>Screen interaction</td><td><a href="https://arxiv.org/abs/2504.07079">SkillWeaver</a>, <a href="https://arxiv.org/abs/2409.17140">AXIS</a></td></tr>
         <tr class="ours"><td>Built by the agent from compiled binaries</td><td>The binaries and a reverse-engineering toolkit</td><td>This post</td></tr>
       </tbody>
     </table>
   </div>
     <figcaption><b>Table A2.</b> Where the tools of an agent come from, in earlier work and in this post.</figcaption>
   </figure>
-  <p>Agents can already analyze binaries with tools such as <a href="https://github.com/LaurieWired/GhidraMCP">GhidraMCP</a>, <a href="https://github.com/mrexodia/ida-pro-mcp">ida-pro-mcp</a> and <a href="https://arxiv.org/abs/2403.05286">LLM4Decompile</a>. We do not know of earlier work where the agent turns this analysis into a tool server and then does a user's tasks through the server.</p>
+  <p>Language models can already help to decompile binaries (<a href="https://arxiv.org/abs/2403.05286">LLM4Decompile</a>). We do not know of earlier work where the agent turns this analysis into a tool server and then does a user's tasks through the server.</p>
 
 </article>
 
