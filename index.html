@@ -450,7 +450,7 @@
   <p>In this part, we share some of our interpretation of what we see in the results.</p>
 
   <h3 id="why-inside">Reverse engineering lets the server work inside the program</h3>
-  <p>The servers built with and without REA look alike from the outside. Both offer high-level tools, and in Fruit Ninja both have one tool that plays a round by itself. <b>The difference is how the server reaches the program. A server built with REA works inside the process. A server built without REA stays outside.</b> It reads the window from screenshots and acts through simulated mouse and keyboard input (<a href="#tab-servers">Table 2</a>).</p>
+  <p><b>With REA, the agent gets inside the program.</b> In FreeCAD, it found the functions of the embedded Python interpreter among the exports of <code>libpython3.11</code>. It injected a script with Frida and ran FreeCAD's own Python API from that script on the program's main thread. Each tool then asks FreeCAD directly for its objects and calls FreeCAD's own functions. In Fruit Ninja, the agent found where the game keeps its fruit and bombs in memory. The server reads their exact positions and velocities many times per second and slashes from those numbers. A server built without REA offers similar tools, but it has to work through the window (<a href="#tab-servers">Table 2</a>).</p>
 
   <figure id="tab-servers">
   <div class="table-wrap">
