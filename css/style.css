@@ -458,3 +458,44 @@ details.trace[open] summary { margin-bottom: 12px; }
 details.trace p { font-size: 15px; }
 details.trace td.task { white-space: normal; }
 details.trace tr:last-child td { border-bottom: 0; }
+
+/* Leave a little room above a figure or table that a reference link jumps to. */
+figure, details.trace { scroll-margin-top: 20px; }
+
+/* ---------- Section rhythm ---------- */
+h2 { padding-top: 34px; border-top: 1px solid var(--rule); scroll-margin-top: 8px; }
+h3, .exp-head { scroll-margin-top: 24px; }
+h3 { margin-top: 44px; }
+.exp-head h3 { font-size: 22px; }
+article > p b, .tldr b { font-weight: 650; }
+
+/* ---------- Contents beside the article, on wide screens ---------- */
+.toc { display: none; }
+@media (min-width: 1300px) {
+  .toc {
+    display: block;
+    position: fixed;
+    top: 104px;
+    left: calc(50% - 396px - 236px);
+    width: 196px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    font-size: 13.5px;
+    line-height: 1.35;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s;
+  }
+  .toc.is-shown { opacity: 1; visibility: visible; }
+}
+.toc-title { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2); }
+.toc ol { margin: 0; padding: 0; list-style: none; }
+.toc ol ol { margin: 2px 0 6px; }
+.toc a { display: block; padding: 5px 0 5px 12px; border-left: 2px solid var(--rule); color: var(--fg-2); text-decoration: none; }
+.toc ol ol a { padding: 3px 0 3px 24px; font-size: 12.5px; }
+.toc a:hover { color: var(--fg); }
+.toc a.is-current { color: var(--fg); font-weight: 600; border-left-color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .toc { transition: none; } }
+
+/* Keep the comparison tables readable on phones: they scroll sideways instead of squeezing. */
+#tab-tasks table, #tab-servers table { min-width: 600px; }
