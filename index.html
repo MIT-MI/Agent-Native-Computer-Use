@@ -364,7 +364,7 @@
   </figure>
 
   <!-- ===================================================== -->
-  <h2 id="results">How well do agents work with the MCP servers they built?</h2>
+  <h2 id="results">Results on FreeCAD</h2>
   <p>After each build finishes, the agent cannot change the server any more. We give the server to the same model, together with five FreeCAD tasks that the agent did not see during the build (<a href="#tab-tasks">Table 1</a>). Each task has multiple checks on the files the model saves. Each task starts from a project file that already passes a few of them.</p>
 
   <figure id="tab-tasks">
@@ -384,7 +384,7 @@
   </figure>
 
 
-  <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>The agent passed 100% of the checks with its MCP server and 40% with computer use</h3></div>
+  <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>The MCP server compared with computer use</h3></div>
   <p>We use DeepSeek V4.1 Flash for the FreeCAD builds and for the tasks. The model does each task three times with its MCP server and three times with computer use. With computer use, it passed 74% of the checks on the shortest task (<a href="#fig-exp1-task">Figure 3</a>). On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes and 3.1M tokens with the MCP server, and 180.6 minutes and 127.1M tokens with computer use (<a href="#fig-exp1-time">Figure 4</a> shows the time on each task). The build is a separate cost that the agent pays once per program, and the three builds took 37, 30 and 85 minutes. The gray bars in Figures 3 to 5 show a server built without REA, which the <a href="#exp2">ablation</a> below describes.</p>
 
   <figure id="fig-exp1-task">
@@ -423,11 +423,11 @@
   </figure>
 
 
-  <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>A server that the agent builds without reverse-engineering tools passes no new checks</h3></div>
+  <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>Without reverse-engineering tools, the server the agent builds is much less useful</h3></div>
   <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that the agent built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). The server that the same model built with REA passed 100%. <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
 
     <!-- ===================================================== -->
-  <h2 id="fruit-ninja">In a closed-source, real-time game, the model scores 4.5× higher with its MCP server</h2>
+  <h2 id="fruit-ninja">Results on Fruit Ninja, a closed-source real-time game</h2>
   <p>FreeCAD is open source, although we gave the agent only its binaries, and its tasks have no time pressure. Fruit Ninja is closed source and runs in real time. While the model is thinking, fruit falls off the screen.</p>
   <p>We give Kimi K3 the game's binary and REA, and it builds an MCP server in the same four steps. The same model then plays three 60-second rounds with the server and three rounds with computer use. <b>The model averaged 304.7 points per round with its MCP server and 67.7 points with computer use</b> (<a href="#fig-fn-score">Figure 7</a>). Most of the computer-use score is a bonus that the game adds when a round ends. In the round shown in <a href="#demo-fruit">Demo 2</a>, the model earned 9 points during play with computer use and 202 points with its MCP server (<a href="#fig-fn-play">Figure 8</a>).</p>
 
