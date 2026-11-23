@@ -19,7 +19,7 @@
       var next = video.cloneNode(false);
       next.poster = "media/v6/" + v.file + ".jpg";
       next.src = "media/v6/" + v.file + ".mp4";
-      next.setAttribute("aria-label", "DeepSeek V4.1 Flash on " + v.label + ", computer use on the left and its MCP server on the right");
+      next.setAttribute("aria-label", "The agent on " + v.label + ", computer use on the left and its MCP server on the right");
       video.pause();
       video.replaceWith(next);
       video.removeAttribute("src");

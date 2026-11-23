@@ -44,7 +44,7 @@
     var html = '<div class="sd-head"><span class="sd-num">' + current + '</span><span class="sd-title">' + s.title + '</span><span class="sd-when">' + s.when + '</span></div>';
     if (mode === "rea") {
       html += '<p>' + s.run + '</p>';
-      html += '<div class="quote">\u201c' + s.quote.text + '\u201d<cite>DeepSeek V4.1 Flash, minute ' + s.quote.min + ' of the build</cite></div>';
+      html += '<div class="quote">\u201c' + s.quote.text + '\u201d<cite>The agent, minute ' + s.quote.min + ' of the build</cite></div>';
     } else {
       html += '<p class="sd-mem">' + s.mem + '</p>';
     }

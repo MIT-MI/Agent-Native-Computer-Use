@@ -65,7 +65,7 @@
 
   <div class="tldr">
     <b>TL;DR</b>
-    <p>We give a language agent the compiled binaries of a program and a reverse-engineering toolkit. <b>The agent rewires the program for its own use: it finds a way into the running process and builds an MCP server on top of it.</b> After that, it does its tasks through this server and does not use the screen. In FreeCAD, DeepSeek V4.1 Flash finished one task 54× faster and with 35× fewer tokens than it did with computer use. Across five tasks it passed 100% of the checks with its MCP server vs 40% with computer use. In Fruit Ninja, a closed-source real-time game, Kimi K3 averaged 305 points with its MCP server vs 68 points with computer use.</p>
+    <p>We give a language agent the compiled binaries of a program and a reverse-engineering toolkit. <b>The agent rewires the program for its own use: it finds a way into the running process and builds an MCP server on top of it.</b> After that, it does its tasks through this server and does not use the screen. In FreeCAD, the agent finished one task 54× faster and with 35× fewer tokens than it did with computer use. Across five tasks it passed 100% of the checks with its MCP server vs 40% with computer use. In Fruit Ninja, a closed-source real-time game, the agent averaged 305 points with its MCP server vs 68 points with computer use.</p>
   </div>
 
   <figure class="demo" id="demo-lid">
@@ -75,9 +75,9 @@
       <div><span class="demo-big">1.9×</span><span class="demo-note">more checks passed, 13/13 vs 7/13</span></div>
     </div>
     <div class="vid-wrap">
-      <video controls playsinline preload="none" poster="media/v6/lid-vent.jpg" src="media/v6/lid-vent.mp4" aria-label="DeepSeek V4.1 Flash on the lid-vent task, computer use on the left and its MCP server on the right"></video>
+      <video controls playsinline preload="none" poster="media/v6/lid-vent.jpg" src="media/v6/lid-vent.mp4" aria-label="The agent on the lid-vent task, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Demo 1.</b> DeepSeek V4.1 Flash cuts vents into a lid in FreeCAD. The left side uses computer use. The right side uses the MCP server that the model built.</figcaption>
+    <figcaption><b>Demo 1.</b> The agent cuts vents into a lid in FreeCAD. The left side uses computer use. The right side uses the MCP server that the model built.</figcaption>
   </figure>
 
   <figure class="demo" id="demo-fruit">
@@ -87,9 +87,9 @@
       <div><span class="demo-big">22×</span><span class="demo-note">more points during play in the round shown, 202 vs 9</span></div>
     </div>
     <div class="vid-wrap">
-      <video controls playsinline preload="none" poster="media/v6/fruit-ninja.jpg" src="media/v6/fruit-ninja.mp4" aria-label="Kimi K3 playing Fruit Ninja, computer use on the left and its MCP server on the right"></video>
+      <video controls playsinline preload="none" poster="media/v6/fruit-ninja.jpg" src="media/v6/fruit-ninja.mp4" aria-label="The agent playing Fruit Ninja, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Demo 2.</b> Kimi K3 plays a 60-second round of Fruit Ninja, shown at 2× speed. The left side uses computer use. The right side uses the MCP server that the model built from the game's binary.</figcaption>
+    <figcaption><b>Demo 2.</b> The agent plays a 60-second round of Fruit Ninja, shown at 2× speed. The left side uses computer use. The right side uses the MCP server that the model built from the game's binary.</figcaption>
   </figure>
 
   <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation (<a href="#appendix-related">Appendix D</a>). For closed-source software, there is no source code to generate them from.</p>
@@ -285,10 +285,10 @@
     </svg>
 
     <div class="stage-detail" id="stage-detail" aria-live="polite"></div>
-    <figcaption><b>Figure 1.</b> The four steps of the build. The details come from DeepSeek V4.1 Flash's FreeCAD build. A dashed arrow shows where the agent goes back to after a check fails. The bars under the steps show which tools the agent uses in each step.</figcaption>
+    <figcaption><b>Figure 1.</b> The four steps of the build. The details come from one FreeCAD build. A dashed arrow shows where the agent goes back to after a check fails. The bars under the steps show which tools the agent uses in each step.</figcaption>
   </figure>
 
-  <p>Each tool that comes out of a build does one whole operation. For example, the server that DeepSeek V4.1 Flash built has a <code>freecad_part_boolean</code> tool, so cutting a vent into the lid is one call, <code>freecad_part_boolean(operation=cut, base=Vented1, tool=Vent2, name=Vented2, document=sensor_lid)</code>. With computer use, the same model worked through FreeCAD's menus and dialogs for 40 minutes and did not cut any vent. <a href="#appendix-build">Appendix A</a> shows what the agent did during one build.</p>
+  <p>Each tool that comes out of a build does one whole operation. For example, the server that the agent built for FreeCAD has a <code>freecad_part_boolean</code> tool, so cutting a vent into the lid is one call, <code>freecad_part_boolean(operation=cut, base=Vented1, tool=Vent2, name=Vented2, document=sensor_lid)</code>. With computer use, the same model worked through FreeCAD's menus and dialogs for 40 minutes and did not cut any vent. <a href="#appendix-build">Appendix A</a> shows what the agent did during one build.</p>
 
   <h3 id="both-sides">A build changes both the harness and the environment</h3>
   <p>Work on computer use usually changes one side. A better harness gives the agent better ways to look at the screen and to click, and the program stays as it is. <b>A build in our setting changes both sides</b> (<a href="#fig-path">Figure 2</a>). On the agent's side, the harness gets an MCP server, so the agent calls tools and does not use screenshots or a mouse. On the program's side, the server attaches to the running FreeCAD with Frida and injects a small script into it. The script receives each tool call and calls the matching FreeCAD functions on the program's main thread. The agent wrote both halves during the build, and a tool call works only when both are in place. <a href="#appendix-servers">Appendix B</a> describes the tools of both servers.</p>
@@ -384,22 +384,22 @@
   </figure>
 
 
-  <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>DeepSeek V4.1 Flash passed 100% of the checks with its MCP server and 40% with computer use</h3></div>
-  <p>DeepSeek V4.1 Flash does each task three times with its MCP server and three times with computer use. With computer use, DeepSeek passed 74% of the checks on the shortest task (<a href="#fig-exp1-task">Figure 3</a>). On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes and 3.1M tokens with the MCP server, and 180.6 minutes and 127.1M tokens with computer use (<a href="#fig-exp1-time">Figure 4</a> shows the time on each task). The build is a separate cost that the agent pays once per program, and DeepSeek V4.1 Flash's three builds took 37, 30 and 85 minutes. The gray bars in Figures 3 to 5 show a server built without REA, which the <a href="#exp2">ablation</a> below describes.</p>
+  <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>The agent passed 100% of the checks with its MCP server and 40% with computer use</h3></div>
+  <p>We use DeepSeek V4.1 Flash for the FreeCAD builds and for the tasks. The model does each task three times with its MCP server and three times with computer use. With computer use, it passed 74% of the checks on the shortest task (<a href="#fig-exp1-task">Figure 3</a>). On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes and 3.1M tokens with the MCP server, and 180.6 minutes and 127.1M tokens with computer use (<a href="#fig-exp1-time">Figure 4</a> shows the time on each task). The build is a separate cost that the agent pays once per program, and the three builds took 37, 30 and 85 minutes. The gray bars in Figures 3 to 5 show a server built without REA, which the <a href="#exp2">ablation</a> below describes.</p>
 
   <figure id="fig-exp1-task">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-tasks.svg" width="760" height="392" decoding="async" alt="Share of checks passed on each task, averaged over three runs. Computer use: board-plate 74%, cable-slot 20%, service-standoffs 20%, lid-vent 41%, enclosure 43%. MCP server built with REA: 100% on every task. MCP server built without REA and the starting file: 33%, 20%, 20%, 15% and 10%."></div>
-    <figcaption><b>Figure 3.</b> DeepSeek V4.1 Flash on the five tasks, averaged over three runs. The dashed line shows how many checks the starting file already passes before the agent does anything.</figcaption>
+    <figcaption><b>Figure 3.</b> The share of checks passed on each of the five tasks, averaged over three runs. The dashed line shows how many checks the starting file already passes before the agent does anything.</figcaption>
   </figure>
 
   <figure id="fig-exp1-time">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-time.svg" width="760" height="392" decoding="async" alt="Average time per task in minutes. Computer use: 20.0, 20.0, 20.0, 30.5 and 90.1. MCP server built with REA: 0.6, 0.4, 1.0, 1.0 and 1.5. MCP server built without REA: 19.4, 19.5, 20.0, 39.5 and 84.6."></div>
-    <figcaption><b>Figure 4.</b> The time DeepSeek V4.1 Flash spent on each task, averaged over three runs.</figcaption>
+    <figcaption><b>Figure 4.</b> The time spent on each task, averaged over three runs.</figcaption>
   </figure>
 
   <figure id="fig-exp1-calls">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-calls.svg" width="760" height="392" decoding="async" alt="Average number of tool calls on each task. Computer use: board-plate 150, cable-slot 152, service-standoffs 172, lid-vent 237, enclosure 754. MCP server built with REA: 32, 24, 41, 43 and 71. MCP server built without REA: 91, 89, 102, 178 and 292."></div>
-    <figcaption><b>Figure 5.</b> The number of tool calls DeepSeek V4.1 Flash made on each task, averaged over three runs.</figcaption>
+    <figcaption><b>Figure 5.</b> The number of tool calls made on each task, averaged over three runs.</figcaption>
   </figure>
 
   <p>The MCP runs also take fewer tool calls (<a href="#fig-exp1-calls">Figure 5</a>). <b>Averaged over three runs, the five tasks took 213 calls with the MCP server, 1,464 calls with computer use, and 752 calls with a server built without REA, which the ablation below describes.</b> With computer use, almost every call is one click, one key press or one piece of typed text. With the MCP server, one call does a whole operation, such as resizing a part or cutting one part out of another. <a href="#appendix-trace">Appendix C</a> lists every call in one run.</p>
@@ -417,14 +417,14 @@
       <span class="vid-stat" id="vid-stat">MCP server: 21/21 in 86 s, 1.8M tokens. Computer use: 13/21 in 90 min, 59.9M tokens.</span>
     </div>
     <div class="vid-wrap">
-      <video id="vid" controls playsinline preload="none" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="DeepSeek V4.1 Flash on the enclosure task, computer use on the left and its MCP server on the right"></video>
+      <video id="vid" controls playsinline preload="none" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="The agent on the enclosure task, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Figure 6.</b> DeepSeek V4.1 Flash on three of the five tasks. The left side uses computer use and the right side uses its MCP server. Each side shows its real clock and the tokens it has used so far.</figcaption>
+    <figcaption><b>Figure 6.</b> Three of the five tasks. The left side uses computer use and the right side uses its MCP server. Each side shows its real clock and the tokens it has used so far.</figcaption>
   </figure>
 
 
   <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>A server that the agent builds without reverse-engineering tools passes no new checks</h3></div>
-  <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that DeepSeek V4.1 Flash built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). The server that the same model built with REA passed 100%. <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
+  <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that the agent built this way drive FreeCAD's menus and dialogs and read the results from the window. <b>On the five tasks, they did not pass any check beyond the starting file</b> (<a href="#fig-exp1-task">Figure 3</a>), and they ran close to the deadline on every task (<a href="#fig-exp1-time">Figure 4</a>). The server that the same model built with REA passed 100%. <a href="#tab-servers">Table 2</a> compares how the two kinds of server work.</p>
 
     <!-- ===================================================== -->
   <h2 id="fruit-ninja">In a closed-source, real-time game, the model scores 4.5× higher with its MCP server</h2>
@@ -433,15 +433,15 @@
 
   <figure id="fig-fn-score">
     <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-final.svg" width="760" height="372" decoding="async" alt="Final score in each of three rounds. MCP server built with REA: 287, 328 and 299. MCP server built without REA: 115, 198 and 109. Computer use: 74, 66 and 63."></div>
-    <figcaption><b>Figure 7.</b> Kimi K3 at Fruit Ninja. The final score in each round is the points earned during play plus the bonuses added when the round ends.</figcaption>
+    <figcaption><b>Figure 7.</b> The final score in each Fruit Ninja round. It is the points earned during play plus the bonuses added when the round ends.</figcaption>
   </figure>
 
   <figure id="fig-fn-play">
     <div class="scroll-x"><img class="chart-img" src="media/chart-fruit-play.svg" width="760" height="372" decoding="async" alt="Points earned during play in each of three rounds. MCP server built with REA: 202, 243 and 229. MCP server built without REA: 40, 137 and 93. Computer use: 9, 6 and 3."></div>
-    <figcaption><b>Figure 8.</b> Kimi K3 at Fruit Ninja. The points earned during play in each round, without the bonuses.</figcaption>
+    <figcaption><b>Figure 8.</b> The points earned during play in each Fruit Ninja round, without the bonuses.</figcaption>
   </figure>
 
-  <p><a href="#fig-fn-score">Figures 7</a> and <a href="#fig-fn-play">8</a> also show a server that Kimi K3 built without REA. As in the FreeCAD ablation, the agent could use the game through its window, but it had no reverse-engineering tools and could not read the game's files or memory. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
+  <p><a href="#fig-fn-score">Figures 7</a> and <a href="#fig-fn-play">8</a> also show a server that the agent built without REA. As in the FreeCAD ablation, the agent could use the game through its window, but it had no reverse-engineering tools and could not read the game's files or memory. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
 
   <p>With its MCP server, the model does not make each slash with a separate call. The server has an <code>auto_play</code> tool that reads the positions of the fruit from the game process many times per second and performs the slashes. <b>The model played each round with one or two calls to this tool</b> (<a href="#appendix-servers">Appendix B</a>).</p>
 
@@ -475,7 +475,7 @@
   <p>The same information can be easy or hard to use depending on how it is presented. A person reads a diagram faster than a paragraph that says the same thing (<a href="https://doi.org/10.1111/j.1551-6708.1987.tb00863.x">Larkin and Simon, 1987</a>). A language model is the opposite, and works with text more cheaply than with images. The call <code>add_box(length=40, width=3, height=7)</code> and a screenshot of the lid describe the same step. With the screenshot, the model has to find the right field, work out where to click, and read the result from another screenshot. On lid-vent, computer use spent 22.2M tokens and the MCP run spent 0.64M.</p>
 
   <h3 id="why-play">An agent can play with the software before it has a task</h3>
-  <p>In our setting, the agent gets time to play with the program before it receives any task. It starts the program, tries things to see what happens, and learns what the program can do. About two fifths of the calls in DeepSeek V4.1 Flash's build were like this (<a href="#fig-tl">Figure A1</a>). They added nothing to the server and only showed the agent how the program behaves. A Tetris player does something similar when they rotate a piece just to see where it fits (<a href="https://doi.org/10.1207/s15516709cog1804_1">Kirsh and Maglio, 1994</a>). After that, the agent turns what it learned into tools, so it is ready for tasks it has not seen yet.</p>
+  <p>In our setting, the agent gets time to play with the program before it receives any task. It starts the program, tries things to see what happens, and learns what the program can do. About two fifths of the calls in one FreeCAD build were like this (<a href="#fig-tl">Figure A1</a>). They added nothing to the server and only showed the agent how the program behaves. A Tetris player does something similar when they rotate a piece just to see where it fits (<a href="https://doi.org/10.1207/s15516709cog1804_1">Kirsh and Maglio, 1994</a>). After that, the agent turns what it learned into tools, so it is ready for tasks it has not seen yet.</p>
 
   <!-- ===================================================== -->
   <!-- ===================================================== -->
@@ -551,7 +551,7 @@
   <!-- ===================================================== -->
   <p class="appx-label">Appendix</p>
   <h2 class="appx" id="appendix-build">A. What the agent does during a build</h2>
-  <p>DeepSeek V4.1 Flash's build for FreeCAD took 37 minutes and 203 tool calls (<a href="#fig-tl">Figure A1</a>). About two fifths of these calls tested the program. Writing the server took 70 calls and about 6 minutes. For example, early in the build FreeCAD crashed when the agent called its functions from an injected thread, and the agent changed the server to run every call on FreeCAD's main thread.</p>
+  <p>One FreeCAD build took 37 minutes and 203 tool calls (<a href="#fig-tl">Figure A1</a>). About two fifths of these calls tested the program. Writing the server took 70 calls and about 6 minutes. For example, early in the build FreeCAD crashed when the agent called its functions from an injected thread, and the agent changed the server to run every call on FreeCAD's main thread.</p>
 
   <figure class="tl" id="fig-tl">
     <div class="tl-area">
@@ -573,15 +573,15 @@
       <span><i class="sw sw-tick" style="background:var(--ok);width:3px"></i>try, review or finish</span>
     </div>
     <ol class="tl-list" id="tl-list"></ol>
-    <figcaption><b>Figure A1.</b> Every tool call in DeepSeek V4.1 Flash's FreeCAD build. Click a number to read what the agent wrote at that moment.</figcaption>
+    <figcaption><b>Figure A1.</b> Every tool call in one FreeCAD build. Click a number to read what the agent wrote at that moment.</figcaption>
   </figure>
 
   <h2 class="appx" id="appendix-servers">B. The MCP servers that the agents built</h2>
   <h3 id="call-path">FreeCAD: 85 tools that call the program's own functions</h3>
-  <p>The server that DeepSeek V4.1 Flash built has 85 tools. Each tool calls FreeCAD's own functions inside the running program, for example to save a document or export a STEP file. <a href="#fig-path">Figure 2</a> shows the path of one call.</p>
+  <p>The FreeCAD server has 85 tools. Each tool calls FreeCAD's own functions inside the running program, for example to save a document or export a STEP file. <a href="#fig-path">Figure 2</a> shows the path of one call.</p>
 
   <h3 id="fn-tools">Fruit Ninja: five tools, and one of them plays the round</h3>
-  <p>The server that Kimi K3 built with REA has five tools (<a href="#fig-fn-tools">Figure A2</a>). Its <code>get_state</code> tool reads the score and the fruit and bombs from the game process. Its <code>auto_play</code> tool plays for a given number of seconds. It reads the positions of the fruit many times per second and performs the slashes. The model does not need to find the fruit in an image.</p>
+  <p>The Fruit Ninja server built with REA has five tools (<a href="#fig-fn-tools">Figure A2</a>). Its <code>get_state</code> tool reads the score and the fruit and bombs from the game process. Its <code>auto_play</code> tool plays for a given number of seconds. It reads the positions of the fruit many times per second and performs the slashes. The model does not need to find the fruit in an image.</p>
 
   <figure id="fig-fn-tools">
     <p class="fig-title">One of the five tools plays the round by itself</p>
@@ -592,7 +592,7 @@
       <div class="tool"><code>start_mode</code><p>Starts a round from the menus.</p></div>
       <div class="tool"><code>restart_round</code><p>Starts the same mode again after a round ends.</p></div>
     </div>
-    <figcaption><b>Figure A2.</b> The five tools in the MCP server that Kimi K3 built from the Fruit Ninja binary.</figcaption>
+    <figcaption><b>Figure A2.</b> The five tools in the MCP server that the agent built from the Fruit Ninja binary.</figcaption>
   </figure>
 
   <h2 class="appx" id="appendix-trace">C. Every tool call in one run</h2>
@@ -616,7 +616,7 @@
         </tbody>
       </table>
     </div>
-    <figcaption><b>Table A1.</b> Every tool call that DeepSeek V4.1 Flash made with its MCP server in one run of the lid-vent task.</figcaption>
+    <figcaption><b>Table A1.</b> Every tool call that the model made with its MCP server in one run of the lid-vent task.</figcaption>
   </figure>
 
 
