@@ -372,22 +372,22 @@
   <div class="exp-head" id="exp1"><span class="exp-num">Main result</span><h3>DeepSeek V4.1 Flash passed 100% of the checks with its MCP server and 40% with computer use</h3></div>
   <p>DeepSeek V4.1 Flash does each task three times with its MCP server and three times with computer use. With computer use, DeepSeek passed 74% of the checks on the shortest task. On cable-slot and service-standoffs, it did not pass any check beyond the ones the starting file already passed. The MCP runs also cost less. The five tasks took 4.4 minutes and 3.1M tokens with the MCP server, and 180.6 minutes and 127.1M tokens with computer use. The build is a separate cost that the agent pays once per program, and DeepSeek V4.1 Flash's three builds took 37, 30 and 85 minutes.</p>
 
-  <figure id="fig-exp1">
-    <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-runs.svg" width="760" height="372" decoding="async" alt="Total score in each of three runs, out of 63. Computer use: 27, 26 and 22. MCP server built with REA: 63 in every run. MCP server built without REA: 11 in every run."></div>
-    <figcaption><b>Figure 4.</b> DeepSeek V4.1 Flash on the five tasks, in each of three runs. The dashed line shows how many checks the starting file already passes before the agent does anything.</figcaption>
-  </figure>
-
   <figure id="fig-exp1-task">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-tasks.svg" width="760" height="392" decoding="async" alt="Share of checks passed on each task, averaged over three runs. Computer use: board-plate 74%, cable-slot 20%, service-standoffs 20%, lid-vent 41%, enclosure 43%. MCP server built with REA: 100% on every task. MCP server built without REA and the starting file: 33%, 20%, 20%, 15% and 10%."></div>
-    <figcaption><b>Figure 5.</b> DeepSeek V4.1 Flash on the five tasks, averaged over three runs. The dashed line shows how many checks the starting file already passes before the agent does anything.</figcaption>
+    <figcaption><b>Figure 4.</b> DeepSeek V4.1 Flash on the five tasks, averaged over three runs. The dashed line shows how many checks the starting file already passes before the agent does anything.</figcaption>
   </figure>
 
   <figure id="fig-exp1-time">
     <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-time.svg" width="760" height="392" decoding="async" alt="Average time per task in minutes. Computer use: 20.0, 20.0, 20.0, 30.5 and 90.1. MCP server built with REA: 0.6, 0.4, 1.0, 1.0 and 1.5. MCP server built without REA: 19.4, 19.5, 20.0, 39.5 and 84.6."></div>
-    <figcaption><b>Figure 6.</b> The time DeepSeek V4.1 Flash spent on each task, averaged over three runs.</figcaption>
+    <figcaption><b>Figure 5.</b> The time DeepSeek V4.1 Flash spent on each task, averaged over three runs.</figcaption>
   </figure>
 
-  <p>DeepSeek V4.1 Flash passed every check on all five tasks with the MCP server it built. It finished the longest task in 87 seconds on average.</p>
+  <figure id="fig-exp1-calls">
+    <div class="scroll-x"><img class="chart-img" src="media/chart-freecad-calls.svg" width="760" height="449" decoding="async" alt="Calls to each tool in run 1, 236 in total. freecad_get_object 42, freecad_create_object 23, freecad_part_boolean 23, freecad_set_properties 21, freecad_get_computed 18, freecad_get_property 17, freecad_list_objects 16, freecad_export_objects 12, freecad_list_documents 8, freecad_status 7, freecad_import_file 7, freecad_close_document 7, and 35 calls to 13 other tools."></div>
+    <figcaption><b>Figure 6.</b> The tool calls of DeepSeek V4.1 Flash on the five tasks in the first run, by tool.</figcaption>
+  </figure>
+
+  <p>The MCP runs also take fewer steps. Averaged over three runs, the five tasks took 213 tool calls with the MCP server, and 1,464 mouse and keyboard actions with computer use. In the first run, the model used 25 of the server's 85 tools (Figure 6). About half of its 236 calls read the state of the document.</p>
 
   <figure id="fig-video">
     <p class="fig-title">Three of the five tasks, with the two runs shown side by side</p>
