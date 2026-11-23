@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Blind Computer Use: When Agents Rewire the Environment They Work In</title>
   <meta name="description" content="A language agent given a program's compiled binaries and a reverse-engineering toolkit finds a way into the running program and builds its own MCP server for it. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
-  <meta name="author" content="Yinzhen Huang, Yang Luo, Ao Qu, Morluto, Paul Liang">
+  <meta name="author" content="Yinzhen Huang, Yann, Ao Qu, Morluto, Kaoru, N0zo, Paul Liang">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Blind Computer Use: When Agents Rewire the Environment They Work In">
   <meta property="og:description" content="A language agent given a program's compiled binaries and a reverse-engineering toolkit finds a way into the running program and builds its own MCP server for it. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
@@ -24,7 +24,7 @@
   </div>
   <div class="col">
     <div class="byline">
-      <div><h3>Authors</h3><p><span class="nw">Yinzhen Huang*<sup>1</sup></span>, <span class="nw">Yang Luo*<sup>1</sup></span>, <span class="nw">Ao Qu*<sup>†2</sup></span>, <span class="nw">Morluto<sup>1</sup></span>, <span class="nw">Paul Liang<sup>2</sup></span></p><p class="byline-note"><sup>1</sup> <a href="https://github.com/morluto/rea">REA</a> team. <sup>2</sup> Massachusetts Institute of Technology. * Equal contribution. <sup>†</sup> Project lead.</p></div>
+      <div><h3>Authors</h3><p><span class="nw">Yinzhen Huang*<sup>1</sup></span>, <span class="nw">Yann*<sup>1</sup></span>, <span class="nw">Ao Qu*<sup>†2</sup></span>, <span class="nw">Morluto<sup>3</sup></span>, <span class="nw">Kaoru<sup>3</sup></span>, <span class="nw">N0zo<sup>3</sup></span>, <span class="nw">Paul Liang<sup>2</sup></span></p><p class="byline-note"><sup>1</sup> Independent researcher. <sup>2</sup> Massachusetts Institute of Technology. <sup>3</sup> <a href="https://github.com/morluto/rea">REA</a> team. * Equal contribution. <sup>†</sup> Project lead.</p></div>
       <div><h3>Published</h3><p>November 2026</p></div>
     </div>
   </div>
@@ -430,7 +430,7 @@
   <p>Without REA, the FreeCAD server had to read the window, and this was not reliable enough. In one run it misread the names in the model tree and could not find the object it was asked to change, and in another it could not switch workbenches. The model never sees the screen itself, so it could not work around these errors and did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points, and there the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average, and reading the game's state from memory raised them from 90 to 225 (<a href="#fig-fn-play">Figure 7</a>).</p>
 
   <h3 id="why-text">Tool calls and screenshots</h3>
-  <p>Screenshots are expensive for a model: on lid-vent, computer use spent 22.2M tokens and the MCP run 0.64M. <b>But using software does not have to go through vision.</b> An experienced FreeCAD user who wants to cut a vent into a lid knows the operations before looking at anything (make a box, place it, subtract it from the lid), and knows which tool to use before opening the menu that shows it. The screen is only how they get to the tool. A tool call skips that part: <code>add_box(length=40, width=3, height=7)</code> names the operation directly.</p>
+  <p>Screenshots are expensive for a model: on lid-vent, computer use spent 22.2M tokens and the MCP run 0.64M. <b>But using software does not have to go through vision.</b> An experienced FreeCAD user who wants to cut a vent into a lid knows the operations before looking at anything (make a box, place it, subtract it from the lid), and knows which tool to use before opening the menu that shows it. The screen is only how they get to the tool. A tool call skips that part: <code>freecad_create_object(type=Part::Box, name=Vent1, properties={Length: 40 mm, Width: 3 mm, Height: 7 mm, ...})</code> names the operation directly.</p>
   <p>Earlier work found a smaller gain: in OSWorld-MCP, adding MCP tools raised Claude 4 Sonnet's success rate from 40.1% to 43.3% (<a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). There the tools are given, so when a task needs something that they do not cover, the agent can only go back to the screen. Here the agent builds the server itself and decides which operations it offers.</p>
 
   <!-- ===================================================== -->
@@ -468,11 +468,11 @@
         <path class="lane" d="M146 174 C 230 174, 250 158, 320 158 H594"/>
         <path class="lane new" d="M146 174 C 230 174, 250 186, 320 186 H594"/>
         <path class="lane new" d="M146 174 C 230 174, 250 210, 320 210 H594"/>
-        <g class="pill"><rect x="372" y="100" width="136" height="20" rx="10"/><text class="t-mono" x="440" y="114" text-anchor="middle">add_box</text></g>
-        <g class="pill"><rect x="372" y="124" width="136" height="20" rx="10"/><text class="t-mono" x="440" y="138" text-anchor="middle">boolean_cut</text></g>
-        <g class="pill"><rect x="372" y="148" width="136" height="20" rx="10"/><text class="t-mono" x="440" y="162" text-anchor="middle">export_step</text></g>
-        <g class="pill new"><rect x="372" y="176" width="136" height="20" rx="10"/><text x="440" y="190" text-anchor="middle">new tool</text></g>
-        <g class="pill new"><rect x="372" y="200" width="136" height="20" rx="10"/><text x="440" y="214" text-anchor="middle">redesigned tool</text></g>
+        <g class="pill"><rect x="354" y="100" width="172" height="20" rx="10"/><text class="t-mono" x="440" y="114" text-anchor="middle">freecad_create_object</text></g>
+        <g class="pill"><rect x="354" y="124" width="172" height="20" rx="10"/><text class="t-mono" x="440" y="138" text-anchor="middle">freecad_part_boolean</text></g>
+        <g class="pill"><rect x="354" y="148" width="172" height="20" rx="10"/><text class="t-mono" x="440" y="162" text-anchor="middle">freecad_export_objects</text></g>
+        <g class="pill new"><rect x="354" y="176" width="172" height="20" rx="10"/><text x="440" y="190" text-anchor="middle">new tool</text></g>
+        <g class="pill new"><rect x="354" y="200" width="172" height="20" rx="10"/><text x="440" y="214" text-anchor="middle">redesigned tool</text></g>
         <text class="t-acc" x="440" y="238" text-anchor="middle">shaped later by the agent, as it works</text>
 
         <rect class="prog" x="600" y="86" width="140" height="140" rx="10"/>
@@ -549,7 +549,7 @@
   </figure>
 
   <h2 class="appx" id="appendix-trace">C. Every tool call in one run</h2>
-  <p>This is the run shown in <a href="#demo-lid">Demo 1</a>. The model sent the 46 calls in 18 replies, because one reply can contain several calls. On the same task with computer use, the model made 264 calls in 40 minutes and passed 7 of the 13 checks. <a href="#trace-lid">Table A1</a> lists the 46 calls, which took 44 seconds.</p>
+  <p>This is the run shown in <a href="#demo-lid">Demo 1</a>. The model sent the 46 calls in 18 replies, because one reply can contain several calls. On the same task with computer use, the model made 265 calls in 40 minutes and passed 7 of the 13 checks. <a href="#trace-lid">Table A1</a> lists the 46 calls, which took 44 seconds.</p>
 
   <figure id="trace-lid">
     <div class="table-wrap">
@@ -582,7 +582,7 @@
       <div class="seg" role="group" aria-label="Task">
         <button type="button" data-vid="enclosure" aria-pressed="true">Enclosure</button>
         <button type="button" data-vid="plate" aria-pressed="false">Board plate</button>
-        <button type="button" data-vid="lid" aria-pressed="false">Lid vent</button>
+        <button type="button" data-vid="lid" aria-pressed="false">Lid vents</button>
       </div>
       <span class="vid-stat" id="vid-stat">MCP server: 21/21 in 86 s, 1.8M tokens. Computer use: 13/21 in 90 min, 59.9M tokens.</span>
     </div>
