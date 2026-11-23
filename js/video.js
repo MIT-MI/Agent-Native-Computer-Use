@@ -1,4 +1,4 @@
-/* Figure 7: run videos, one tab per task. */
+/* Figure 5: run videos, one tab per task. */
 (function () {
   "use strict";
 
