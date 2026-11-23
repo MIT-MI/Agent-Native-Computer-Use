@@ -51,13 +51,13 @@
         <li><a href="#why-play">Playing before the task</a></li>
       </ol>
     </li>
-    <li><a href="#related">Prior work</a></li>
     <li><a href="#next">Next</a></li>
     <li><a href="#appendix-build">Appendix</a>
       <ol>
         <li><a href="#appendix-build">A. Inside one build</a></li>
         <li><a href="#appendix-servers">B. The MCP servers</a></li>
         <li><a href="#appendix-trace">C. One run, call by call</a></li>
+        <li><a href="#appendix-related">D. Prior work</a></li>
       </ol>
     </li>
   </ol>
@@ -94,7 +94,7 @@
     <figcaption><b>Demo 2.</b> Kimi K3 plays a 60-second round of Fruit Ninja, shown at 2× speed. The left side uses computer use. The right side uses the MCP server that the model built from the game's binary.</figcaption>
   </figure>
 
-  <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation. For closed-source software, there is no source code to generate them from.</p>
+  <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation (<a href="#appendix-related">Appendix D</a>). For closed-source software, there is no source code to generate them from.</p>
   <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program, finds a way into the running process, and writes an MCP server on top of it. For FreeCAD, the server injects a script that calls the program's own functions. For Fruit Ninja, it reads the game's memory. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We observed superior performance and call this <b>blind computer use</b>.</p>
 
   
@@ -480,24 +480,6 @@
   <p>In our setting, the agent gets time to play with the program before it receives any task. It starts the program, tries things to see what happens, and learns what the program can do. About two fifths of the calls in DeepSeek V4.1 Flash's build were like this (<a href="#fig-tl">Figure A1</a>). They added nothing to the server and only showed the agent how the program behaves. A Tetris player does something similar when they rotate a piece just to see where it fits (<a href="https://doi.org/10.1207/s15516709cog1804_1">Kirsh and Maglio, 1994</a>). After that, the agent turns what it learned into tools, so it is ready for tasks it has not seen yet.</p>
 
   <!-- ===================================================== -->
-  <h2 id="related">How this relates to prior work</h2>
-  <p>Earlier work shows that agents do better with APIs or MCP tools than with only the screen. This has been shown on the web (<a href="https://arxiv.org/abs/2410.16464">Song et al.</a>), in IDEs (<a href="https://arxiv.org/abs/2502.18525">Aggarwal and Welleck</a>) and on the desktop (<a href="https://arxiv.org/abs/2504.14603">UFO2</a>, <a href="https://arxiv.org/abs/2508.03923">CoAct-1</a>, <a href="https://arxiv.org/abs/2510.24563">OSWorld-MCP</a>, <a href="https://arxiv.org/abs/2506.07672">MCPWorld</a>). We ask a different question: where do the tools come from when nobody has written them? <a href="#tab-related">Table 3</a> places this post next to earlier answers.</p>
-  <figure id="tab-related">
-  <div class="table-wrap">
-    <table class="rel">
-      <thead><tr><th>Where the tools come from</th><th>What it needs</th><th>Examples</th></tr></thead>
-      <tbody>
-        <tr><td>Written by the vendor or by other people</td><td>The program's own API, or its source</td><td><a href="https://blogs.windows.com/windowsdeveloper/2025/11/18/ignite-2025-furthering-windows-as-the-premier-platform-for-developers-governed-by-security/">Windows agent connectors</a>, <a href="https://github.com/neka-nat/freecad-mcp">freecad-mcp</a>, the servers in <a href="https://arxiv.org/abs/2508.14704">MCP-Universe</a> and <a href="https://arxiv.org/abs/2508.20453">MCP-Bench</a></td></tr>
-        <tr><td>Generated from source code or documentation</td><td>A code repository, an API specification, or manuals</td><td><a href="https://github.com/HKUDS/CLI-Anything">CLI-Anything</a>, <a href="https://arxiv.org/abs/2509.05941">Code2MCP</a>, <a href="https://arxiv.org/abs/2507.16044">AutoMCP</a>, <a href="https://arxiv.org/abs/2510.17790">UltraCUA</a>, <a href="https://arxiv.org/abs/2505.20286">Alita</a></td></tr>
-        <tr><td>Learned from using the program</td><td>Screen interaction, or recorded network traffic for web apps</td><td><a href="https://arxiv.org/abs/2504.07079">SkillWeaver</a>, <a href="https://arxiv.org/abs/2409.17140">AXIS</a>, <a href="https://arxiv.org/abs/2605.12481">ToolCUA</a>, <a href="https://github.com/Integuru-AI/Integuru">Integuru</a>, <a href="https://arxiv.org/abs/2604.00694">Unbrowse</a></td></tr>
-        <tr class="ours"><td>Built by the agent from compiled binaries</td><td>The binaries and a reverse-engineering toolkit</td><td>This post</td></tr>
-      </tbody>
-    </table>
-  </div>
-    <figcaption><b>Table 3.</b> Where the tools of an agent come from, in earlier work and in this post.</figcaption>
-  </figure>
-  <p>Agents can already analyze binaries with tools such as <a href="https://github.com/LaurieWired/GhidraMCP">GhidraMCP</a>, <a href="https://github.com/mrexodia/ida-pro-mcp">ida-pro-mcp</a> and <a href="https://arxiv.org/abs/2403.05286">LLM4Decompile</a>. We do not know of earlier work where the agent turns this analysis into a tool server and then does a user's tasks through the server.</p>
-
   <!-- ===================================================== -->
   <h2 id="next">Next: let agents shape their own link to the environment</h2>
   <p>In our experiments, the agent builds the server only once, before it sees any task. After it starts to receive tasks, it does not update the server. But the agent still has the program, and it can go back to it at any time.</p>
@@ -638,6 +620,25 @@
     </div>
     <figcaption><b>Table A1.</b> Every tool call that DeepSeek V4.1 Flash made with its MCP server in one run of the lid-vent task.</figcaption>
   </figure>
+
+
+  <h2 class="appx" id="appendix-related">D. How this relates to prior work</h2>
+  <p>Earlier work shows that agents do better with APIs or MCP tools than with only the screen. This has been shown on the web (<a href="https://arxiv.org/abs/2410.16464">Song et al.</a>), in IDEs (<a href="https://arxiv.org/abs/2502.18525">Aggarwal and Welleck</a>) and on the desktop (<a href="https://arxiv.org/abs/2504.14603">UFO2</a>, <a href="https://arxiv.org/abs/2508.03923">CoAct-1</a>, <a href="https://arxiv.org/abs/2510.24563">OSWorld-MCP</a>, <a href="https://arxiv.org/abs/2506.07672">MCPWorld</a>). We ask a different question: where do the tools come from when nobody has written them? <a href="#tab-related">Table A2</a> places this post next to earlier answers.</p>
+  <figure id="tab-related">
+  <div class="table-wrap">
+    <table class="rel">
+      <thead><tr><th>Where the tools come from</th><th>What it needs</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>Written by the vendor or by other people</td><td>The program's own API, or its source</td><td><a href="https://blogs.windows.com/windowsdeveloper/2025/11/18/ignite-2025-furthering-windows-as-the-premier-platform-for-developers-governed-by-security/">Windows agent connectors</a>, <a href="https://github.com/neka-nat/freecad-mcp">freecad-mcp</a>, the servers in <a href="https://arxiv.org/abs/2508.14704">MCP-Universe</a> and <a href="https://arxiv.org/abs/2508.20453">MCP-Bench</a></td></tr>
+        <tr><td>Generated from source code or documentation</td><td>A code repository, an API specification, or manuals</td><td><a href="https://github.com/HKUDS/CLI-Anything">CLI-Anything</a>, <a href="https://arxiv.org/abs/2509.05941">Code2MCP</a>, <a href="https://arxiv.org/abs/2507.16044">AutoMCP</a>, <a href="https://arxiv.org/abs/2510.17790">UltraCUA</a>, <a href="https://arxiv.org/abs/2505.20286">Alita</a></td></tr>
+        <tr><td>Learned from using the program</td><td>Screen interaction, or recorded network traffic for web apps</td><td><a href="https://arxiv.org/abs/2504.07079">SkillWeaver</a>, <a href="https://arxiv.org/abs/2409.17140">AXIS</a>, <a href="https://arxiv.org/abs/2605.12481">ToolCUA</a>, <a href="https://github.com/Integuru-AI/Integuru">Integuru</a>, <a href="https://arxiv.org/abs/2604.00694">Unbrowse</a></td></tr>
+        <tr class="ours"><td>Built by the agent from compiled binaries</td><td>The binaries and a reverse-engineering toolkit</td><td>This post</td></tr>
+      </tbody>
+    </table>
+  </div>
+    <figcaption><b>Table A2.</b> Where the tools of an agent come from, in earlier work and in this post.</figcaption>
+  </figure>
+  <p>Agents can already analyze binaries with tools such as <a href="https://github.com/LaurieWired/GhidraMCP">GhidraMCP</a>, <a href="https://github.com/mrexodia/ida-pro-mcp">ida-pro-mcp</a> and <a href="https://arxiv.org/abs/2403.05286">LLM4Decompile</a>. We do not know of earlier work where the agent turns this analysis into a tool server and then does a user's tasks through the server.</p>
 
 </article>
 
