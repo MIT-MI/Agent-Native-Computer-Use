@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Blind Computer Use: When Agents Rewire the Software They Use</title>
-  <meta name="description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
+  <meta name="description" content="A language agent given a program's compiled binaries and a reverse-engineering toolkit finds a way into the running program and builds its own MCP server for it. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Blind Computer Use: When Agents Rewire the Software They Use">
-  <meta property="og:description" content="A language agent given only a closed-source program's binaries and a reverse-engineering toolkit builds its own MCP server for the program. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
+  <meta property="og:description" content="A language agent given a program's compiled binaries and a reverse-engineering toolkit finds a way into the running program and builds its own MCP server for it. Working through that server, it finishes a FreeCAD task 54x faster with 35x fewer tokens than computer use, and averages 305 points to 68 at Fruit Ninja.">
   <meta property="og:image" content="https://kaoru0822-kitauji.github.io/software-in-mcp-out/media/v6/lid-vent.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,9 +18,7 @@
 <header>
   <div class="band">
     <div class="col">
-      <h1><span class="hl nw">Blind</span> <span class="nw">Computer Use</span></h1>
-      <p class="title-2">When Agents Rewire the Software They Use</p>
-      <p class="subtitle">Given just a binary, language agents build their own tools for a program and use it better than agents that watch the screen</p>
+      <h1><span class="hl nw">Blind</span> <span class="nw">Computer Use:</span><br><span class="nw">When Agents Rewire</span> <span class="nw">the Software They Use</span></h1>
     </div>
   </div>
   <div class="col">
@@ -67,7 +65,7 @@
 
   <div class="tldr">
     <b>TL;DR</b>
-    <p><b>We give a language agent only the compiled binaries of a program and a reverse-engineering toolkit. The agent builds its own tools for the program. With these tools, it uses the program much better than the same model does by operating the screen.</b> In FreeCAD, DeepSeek V4.1 Flash finished one task <b>54× faster and with 35× fewer tokens</b> when it used the MCP server it built. Across five tasks it passed <b>100% of the checks with its MCP server and 40% with computer use</b>. In Fruit Ninja, a closed-source real-time game, Kimi K3 <b>averaged 305 points with its MCP server and 68 points with computer use</b>.</p>
+    <p>We give a language agent the compiled binaries of a program and a reverse-engineering toolkit. <b>The agent rewires the program for its own use: it finds a way into the running process and builds an MCP server on top of it.</b> After that, it does its tasks through this server and does not use the screen. In FreeCAD, DeepSeek V4.1 Flash finished one task 54× faster and with 35× fewer tokens than it did with computer use. Across five tasks it passed 100% of the checks with its MCP server and 40% with computer use. In Fruit Ninja, a closed-source real-time game, Kimi K3 averaged 305 points with its MCP server and 68 points with computer use.</p>
   </div>
 
   <figure class="demo" id="demo-lid">
@@ -95,7 +93,7 @@
   </figure>
 
   <p>With computer use, a language agent operates software the way a person does. It looks at screenshots and moves the mouse. This works on any program, but every step needs a new screenshot and a new model reply. Agents work better when a program offers tools that they can call directly, such as an MCP server (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). So far, people have written these tools by hand or generated them from source code and documentation (<a href="#appendix-related">Appendix D</a>). For closed-source software, there is no source code to generate them from.</p>
-  <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program, finds a way into the running process, and writes an MCP server on top of it. For FreeCAD, the server injects a script that calls the program's own functions. For Fruit Ninja, it reads the game's memory. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We observed superior performance and call this <b>blind computer use</b>.</p>
+  <p>We ask whether an agent can build these tools itself when it has only the compiled binaries of the program. We give the agent <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that can inspect binaries and instrument running processes. We do not give it source code, documentation or internet access. The agent studies the program, finds a way into the running process, and writes an MCP server on top of it. For FreeCAD, the server injects a script that calls the program's own functions. For Fruit Ninja, it reads the game's memory. After that, the agent does its tasks through only this server, without using the screen, mouse or keyboard. We call this <b>blind computer use</b>.</p>
 
   
   <!-- ===================================================== -->

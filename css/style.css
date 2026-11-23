@@ -85,7 +85,7 @@ p code, li code, td code, .card code, figcaption code {
 .band { background: var(--bg); padding-block: 84px 28px; }
 h1 {
   margin: 0;
-  font-size: 66px;
+  font-size: 58px;
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -0.03em;
@@ -93,10 +93,8 @@ h1 {
 }
 h1 .hl { color: var(--accent); background: linear-gradient(100deg, #c9a45c 0%, #8f6f37 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 h1 .nw { white-space: nowrap; }
-.title-2 { margin: 12px 0 0; font-size: 34px; font-weight: 650; line-height: 1.15; letter-spacing: -0.02em; color: var(--fg); text-wrap: balance; }
-@media (max-width: 600px) { .title-2 { font-size: 26px; } }
-.subtitle { margin: 18px 0 0; font-size: 23px; font-weight: 400; line-height: 1.35; letter-spacing: -0.01em; color: var(--fg-2); text-wrap: balance; }
-@media (max-width: 600px) { .band { padding-block: 44px 32px; } h1 { font-size: 44px; } .subtitle { font-size: 19px; } }
+
+@media (max-width: 600px) { .band { padding-block: 44px 32px; } h1 { font-size: 32px; } }
 .byline {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -504,3 +502,4 @@ article > p b, .tldr b { font-weight: 650; }
 
 /* Keep the comparison tables readable on phones: they scroll sideways instead of squeezing. */
 #tab-tasks table, #tab-servers table { min-width: 600px; }
+@media (max-width: 370px) { h1 { font-size: 28px; } }
