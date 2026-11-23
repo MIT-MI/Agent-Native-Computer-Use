@@ -406,8 +406,8 @@
   </figure>
 
 
-  <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>A server that the agent writes without access to the program does not work</h3></div>
-  <p>FreeCAD's Python API is widely documented, so a model might be able to write the server from memory. To check this, we run the build again, but this time we do not give the agent REA or FreeCAD's files. On the five tasks, DeepSeek V4.1 Flash's server did not pass any check beyond the starting file. The server that the same model built with REA passed 100%.</p>
+  <div class="exp-head" id="exp2"><span class="exp-num">Ablation</span><h3>A server that the agent builds without reverse-engineering tools passes no new checks</h3></div>
+  <p>To check how much the reverse-engineering tools matter, we run the build again without them. The agent can still run FreeCAD and use it through its window, but it does not have REA and cannot inspect the program's files or its running process. The servers that DeepSeek V4.1 Flash built this way drive FreeCAD's menus and dialogs and read the results from the window. On the five tasks, they did not pass any check beyond the starting file. The server that the same model built with REA passed 100%.</p>
 
     <!-- ===================================================== -->
   <h2 id="fruit-ninja">In a closed-source, real-time game, the model scores 4.5× higher with its MCP server</h2>
@@ -424,7 +424,9 @@
     <figcaption><b>Figure 9.</b> Kimi K3 at Fruit Ninja. The points earned during play in each round, without the bonuses.</figcaption>
   </figure>
 
-  <p>The server's <code>get_state</code> tool reads the score and the fruit and bombs from the game process. Its <code>auto_play</code> tool plays for a given number of seconds. It reads the positions of the fruit many times per second and performs the slashes. The model does not need to find the fruit in an image.</p>
+  <p>Figures 8 and 9 also show a server that Kimi K3 built without REA. As in the FreeCAD ablation, the agent could use the game through its window, but it had no reverse-engineering tools and could not read the game's files or memory. This server averaged 140.7 points per round, about twice the computer-use score and less than half the score of the server built with REA.</p>
+
+  <p>The server that Kimi K3 built with REA has a <code>get_state</code> tool that reads the score and the fruit and bombs from the game process. Its <code>auto_play</code> tool plays for a given number of seconds. It reads the positions of the fruit many times per second and performs the slashes. The model does not need to find the fruit in an image.</p>
 
   <figure id="fig-fn-tools">
     <p class="fig-title">One of the five tools plays the round by itself</p>
@@ -441,6 +443,22 @@
   <!-- ===================================================== -->
   <h2 id="discussion">Why an agent does not need the screen</h2>
   <p>In this part, we share some of our interpretation of what we see in the results.</p>
+
+  <h3>Reverse engineering lets the server work inside the program</h3>
+  <p>The servers built with and without REA look alike from the outside. Both offer high-level tools, and in Fruit Ninja both have one tool that plays a round by itself. The difference is how the server reaches the program. A server built with REA works inside the process. A server built without REA stays outside. It reads the window from screenshots and acts through simulated mouse and keyboard input.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Server built with REA</th><th>Server built without REA</th></tr></thead>
+      <tbody>
+        <tr><td class="task">FreeCAD, reading state</td><td>Asks the running FreeCAD for its objects and their properties.</td><td>Takes screenshots and reads the model tree and the property panel with OCR.</td></tr>
+        <tr><td class="task">FreeCAD, acting</td><td>Calls FreeCAD's own functions inside the process.</td><td>Clicks through menus and fills in dialogs.</td></tr>
+        <tr><td class="task">Fruit Ninja, reading state</td><td>Reads the exact position and velocity of every fruit and bomb from the game's memory.</td><td>Captures the screen at 30 frames per second, finds the fruit in the image, and tracks each fruit over at least three frames.</td></tr>
+        <tr><td class="task">Fruit Ninja, acting</td><td>Slashes in a loop that runs many times per second.</td><td>Makes simulated mouse strokes of 200 ms each.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>In FreeCAD, reading the window was not reliable enough. For example, in one run the server misread the names in the model tree and could not find the object it was asked to change, and in another run it could not switch workbenches. The model does not see the screen itself, so it could not work around these errors, and it did worse than computer use. Fruit Ninja tolerates such errors better, because a missed fruit costs only a few points. There the two effects can be separated. Moving the real-time decisions from the model into the server raised the points during play from 6 to 90 on average. Reading the game's state from memory raised them from 90 to 225.</p>
 
   <h3>A skilled user knows which operations to do without studying the screen</h3>
   <p>An experienced FreeCAD user does not need to analyze the screen to know what to do next. To cut a vent into a lid, they already know the operations: make a box, place it, and subtract it from the lid. In the GOMS model of skilled computer use, an expert knows goals and the methods that reach them, and clicks and keystrokes are only how the methods get carried out (Card, Moran and Newell, 1983). Blind people use software through a screen reader that reads the names of the buttons and menus aloud. Experienced users often write scripts instead of clicking.</p>
