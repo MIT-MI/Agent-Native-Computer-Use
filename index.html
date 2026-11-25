@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Blind Computer Use: When Agents Rewire the Environment They Work In</title>
+  <title>Agent-Native Computer Use: When Agents Reshape the Environment for Their Own Use</title>
   <meta name="description" content="Agents can use computers in a more native way if we allow them to reverse engineer the software they use. Given a program's compiled binaries and a reverse-engineering toolkit, a language agent builds its own MCP server and completes a FreeCAD task 55x faster using 35x fewer tokens, without reading the screen.">
   <meta name="author" content="Yinzhen Huang, Yann, Ao Qu, Morluto, Kaoru, N0zo, Paul Liang">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Blind Computer Use: When Agents Rewire the Environment They Work In">
+  <meta property="og:title" content="Agent-Native Computer Use: When Agents Reshape the Environment for Their Own Use">
   <meta property="og:description" content="Agents can use computers in a more native way if we allow them to reverse engineer the software they use. Given a program's compiled binaries and a reverse-engineering toolkit, a language agent builds its own MCP server and completes a FreeCAD task 55x faster using 35x fewer tokens, without reading the screen.">
   <meta property="og:image" content="https://kaoru0822-kitauji.github.io/software-in-mcp-out/media/v6/lid-vent.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
 <header>
   <div class="band">
     <div class="col">
-      <h1><span class="hl nw">Blind</span> <span class="nw">Computer Use:</span><br>When Agents Rewire the Environment <span class="nw">They Work In</span></h1>
+      <h1><span class="hl nw">Agent-Native</span> <span class="nw">Computer Use:</span><br>When Agents Reshape the Environment <span class="nw">for Their Own Use</span></h1>
     </div>
   </div>
   <div class="col">
@@ -95,7 +95,7 @@
   </figure>
 
   <p>Computer use lets a language agent operate any program the way a person does, through screenshots and the mouse, but every step costs a new screenshot and a new model reply. But the screen may not be the most efficient interface for an agent. Earlier studies found that agents could perform better when they are given tools to call, such as an MCP server, in addition to screenshots (<a href="https://arxiv.org/abs/2410.16464">Song et al., 2024</a>; <a href="https://arxiv.org/abs/2510.24563">Jia et al., 2025</a>). In these studies, people design the tools and hand them to the agent, and the software itself stays unchanged throughout.</p>
-  <p>We show that an agent can build these tools itself if it is allowed to reverse engineer the program. We give it only the compiled binaries and <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that inspects binaries and instruments running processes, with no source code, documentation or internet access. The agent inspects the program to understand how it works, finds a way into the running process, and builds an MCP server on top of it. It then does its tasks through this server alone, without the screen, mouse or keyboard. This is a more native way for an agent to use a program: it reads the program's state and calls its functions directly, where computer use goes through an interface that was drawn for human eyes. We call this <b>blind computer use</b>.</p>
+  <p>We show that an agent can build these tools itself if it is allowed to reverse engineer the program. We give it only the compiled binaries and <a href="https://github.com/morluto/rea">REA</a>, a reverse-engineering toolkit that inspects binaries and instruments running processes, with no source code, documentation or internet access. The agent inspects the program to understand how it works, finds a way into the running process, and builds an MCP server on top of it. It then does its tasks through this server alone, without the screen, mouse or keyboard. This is a more native way for an agent to use a program: it reads the program's state and calls its functions directly, where computer use goes through an interface that was drawn for human eyes. We call this <b>agent-native computer use</b>.</p>
 
   
   <!-- ===================================================== -->

@@ -1,4 +1,4 @@
-# Blind Computer Use: When Agents Rewire the Environment They Work In
+# Agent-Native Computer Use: When Agents Reshape the Environment for Their Own Use
 
 Static blog post. No build step and no dependencies besides Google Fonts.
 
