@@ -267,7 +267,7 @@
     </svg>
 
     <div class="stage-detail" id="stage-detail" aria-live="polite"></div>
-    <figcaption><b>Figure 1.</b> The four steps of the build. The details come from one FreeCAD build. A dashed arrow shows where the agent goes back to after a check fails. The bars under the steps show which tools the agent uses in each step.</figcaption>
+    <figcaption><b>Figure 1.</b> The four steps of the build. The details come from one FreeCAD build.</figcaption>
   </figure>
 
   <p>Each tool does one whole operation. In the FreeCAD server, cutting a vent into the lid is a single call, <code>freecad_part_boolean(operation=cut, base=Vented1, tool=Vent2, name=Vented2, document=sensor_lid)</code>. With computer use, the same model spent 40 minutes in FreeCAD's menus and dialogs and did not cut any vent. <a href="#appendix-build">Appendix A</a> shows what the agent did during one build.</p>
@@ -342,7 +342,7 @@
         <text x="666" y="196" text-anchor="end" class="t-lab">FreeCAD writes</text>
       </svg>
     </div>
-    <figcaption><b>Figure 2.</b> A build changes both the harness and the environment. On the left, the agent's harness gets the MCP server and its 85 tools. On the right, the running FreeCAD gets a script that the server injects with Frida. The bronze parts are what the agent worked out by testing: the injected script and the calls it makes to FreeCAD's functions.</figcaption>
+    <figcaption><b>Figure 2.</b> A build changes both the harness and the environment. The bronze parts are what the agent worked out by testing: the injected script and the calls it makes to FreeCAD's functions.</figcaption>
   </figure>
 
   <!-- ===================================================== -->
@@ -498,7 +498,7 @@
         <text class="t-acc" x="382" y="372" text-anchor="middle">after each round, the link fits the agent's work better</text>
       </svg>
     </div>
-    <figcaption><b>Figure 8.</b> A sketch of how the server could change over time. This is not a result. Each line is one tool in the agent's server.</figcaption>
+    <figcaption><b>Figure 8.</b> A sketch of how the server could change over time. This is not a result.</figcaption>
   </figure>
 
   <p>If this works, a program does not need to ship an agent interface for agents to use it well. Software is one kind of environment. We are excited about agents that shape their own links to the environments they work in, starting with the software on a computer.</p>
@@ -592,7 +592,7 @@
     <div class="vid-wrap">
       <video id="vid" controls playsinline preload="none" poster="media/v6/enclosure.jpg" src="media/v6/enclosure.mp4" aria-label="The agent on the enclosure task, computer use on the left and its MCP server on the right"></video>
     </div>
-    <figcaption><b>Figure A3.</b> Three of the five tasks. The left side uses vision-based computer use and the right side uses the MCP server. The right side draws the model inside FreeCAD after each tool call, replayed from the calls recorded in the run. Each side shows its real clock and the tokens it has used so far.</figcaption>
+    <figcaption><b>Figure A3.</b> Three of the five tasks. The left side uses vision-based computer use and the right side uses the MCP server. The right side draws the model inside FreeCAD after each tool call, replayed from the calls recorded in the run.</figcaption>
   </figure>
 
   <h2 class="appx" id="appendix-related">E. How this relates to prior work</h2>
